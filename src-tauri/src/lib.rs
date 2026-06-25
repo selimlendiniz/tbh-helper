@@ -256,12 +256,32 @@ fn show_steam_window(app_handle: tauri::AppHandle, label: String) -> Result<(), 
 #[tauri::command]
 fn extract_steam_data(app_handle: tauri::AppHandle, label: String, start: i32) -> Result<(), String> {
     use tauri::Manager;
+    
+    let main_window = app_handle.get_webview_window("main")
+        .or_else(|| {
+            app_handle.webview_windows()
+                .into_iter()
+                .find(|(k, _)| k != &label)
+                .map(|(_, w)| w)
+        })
+        .ok_or_else(|| "Main window not found".to_string())?;
+        
+    let main_url = main_window.url().map_err(|e| e.to_string())?;
+    let scheme = main_url.scheme();
+    let host = main_url.host_str().unwrap_or("localhost");
+    let base_url = if let Some(port) = main_url.port() {
+        format!("{}://{}:{}", scheme, host, port)
+    } else {
+        format!("{}://{}", scheme, host)
+    };
+    
     let window = app_handle.get_webview_window(&label)
         .ok_or_else(|| "Window not found".to_string())?;
         
     let script = format!(
         "const data = document.body.innerText; \
-         window.location.href = 'http://localhost:1420/?price_page={}&price_data=' + encodeURIComponent(data);",
+         window.location.href = '{}/?price_page={}&price_data=' + encodeURIComponent(data);",
+        base_url,
         start
     );
     window.eval(&script).map_err(|e| e.to_string())?;
