@@ -2,6 +2,22 @@
 
 > **Task Bar Hero** için gelişmiş bir yardımcı uygulama — envanterinizi görüntüleyin, item değerlerini takip edin ve Steam Pazarı fiyatlarını anlık olarak izleyin.
 
+[🇬🇧 English README](./README.md)
+
+---
+
+## ⬇️ İndir ve Kur
+
+**Derleme gerekmez.** Sadece en son kurulum dosyasını indirip çalıştırın.
+
+👉 **[En son sürümü indir](https://github.com/selimlendiniz/tbh-helper/releases/latest)**
+
+1. Assets bölümünden `TBH.Helper_x.x.x_x64-setup.exe` dosyasını indirin
+2. Kurulum dosyasını çalıştırın
+3. **TBH Helper**'ı Başlat Menüsü veya Masaüstü kısayolundan açın
+
+> **Yalnızca Windows.** Uygulama, oyunun save dosyasını Windows'a özgü bir konumdan okur.
+
 ---
 
 ## Özellikler
@@ -14,56 +30,6 @@
 - 🔐 **Steam Hesap Entegrasyonu** — Uygulama içinden Steam'e giriş yaparak hız sınırı sorunlarını aşın
 - 🧮 **Toplam Envanter Değeri** — Üst navigasyon çubuğunda tek bakışta görüntülenir
 - 🔍 **Arama ve Filtreleme** — Nadirlik derecesine göre filtrele, isme göre ara, değer / isim / derece bazlı sırala
-
----
-
-## Teknoloji Altyapısı
-
-| Katman | Teknoloji |
-|---|---|
-| Masaüstü kabuğu | [Tauri](https://tauri.app/) (Rust) |
-| Arayüz | React + TypeScript |
-| Paketleyici | Vite |
-| Stil | Vanilla CSS |
-| Yazı Tipi | Outfit (Google Fonts) |
-
----
-
-## Gereksinimler
-
-- **Windows** (save dosyası yolu Windows'a özgüdür)
-- [Node.js](https://nodejs.org/) v18+
-- [Rust](https://www.rust-lang.org/tools/install) (kararlı araç zinciri)
-- [Tauri önkoşulları](https://tauri.app/v1/guides/getting-started/prerequisites)
-
----
-
-## Başlarken
-
-### 1. Repoyu klonlayın
-
-```bash
-git clone https://github.com/yourname/tbhhelper.git
-cd tbhhelper
-```
-
-### 2. Bağımlılıkları yükleyin
-
-```bash
-npm install
-```
-
-### 3. Geliştirme modunda çalıştırın
-
-```bash
-npm run tauri dev
-```
-
-### 4. Üretim için derleyin
-
-```bash
-npm run tauri build
-```
 
 ---
 
@@ -100,7 +66,63 @@ Tüm item meta verileri (isimler, dereceler, tipler, seviyeler, ikonlar) `tbh_da
 
 ---
 
-## Proje Yapısı
+## Steam Entegrasyonu
+
+1. Üst çubukta **Connect Steam** butonuna tıklayın
+2. Steam giriş penceresi açılır — normalde yaptığınız gibi giriş yapın
+3. Giriş yapıldıktan sonra uygulama oturum çerezlerinizi algılar ve pencereyi gizler
+4. Bundan sonraki tüm fiyat çekme işlemleri Steam oturumunuzu kullanır — artık 429 hatası yok
+
+Bağlantıyı kesmek için **Disconnect Steam** butonuna tıklayın.
+
+---
+
+## Dış Bağımlılıklar
+
+| Servis | Amaç | Ne Zaman |
+|---|---|---|
+| `steamcommunity.com/market/` | Canlı item fiyatları | Fiyat yenilemede |
+| `steamcommunity.com/login/` | Steam giriş sayfası (webview) | Steam'e bağlanırken |
+| `fonts.googleapis.com` | Outfit yazı tipi | Uygulama başlangıcında |
+
+---
+
+## Geliştiriciler İçin
+
+### Teknoloji Altyapısı
+
+| Katman | Teknoloji |
+|---|---|
+| Masaüstü kabuğu | [Tauri](https://tauri.app/) (Rust) |
+| Arayüz | React + TypeScript |
+| Paketleyici | Vite |
+| Stil | Vanilla CSS |
+| Yazı Tipi | Outfit (Google Fonts) |
+
+### Gereksinimler
+
+- [Node.js](https://nodejs.org/) v18+
+- [Rust](https://www.rust-lang.org/tools/install) (kararlı araç zinciri)
+- [Tauri önkoşulları](https://tauri.app/v1/guides/getting-started/prerequisites)
+
+### Başlarken
+
+```bash
+# 1. Repoyu klonlayın
+git clone https://github.com/selimlendiniz/tbh-helper.git
+cd tbh-helper
+
+# 2. Bağımlılıkları yükleyin
+npm install
+
+# 3. Geliştirme modunda çalıştırın
+npm run tauri dev
+
+# 4. Üretim için derleyin
+npm run tauri build
+```
+
+### Proje Yapısı
 
 ```
 tbhhelper/
@@ -125,27 +147,6 @@ tbhhelper/
 │   └── capabilities/            # Tauri izin yapılandırması
 └── index.html
 ```
-
----
-
-## Steam Entegrasyonu
-
-1. Üst çubukta **Connect Steam** butonuna tıklayın
-2. Steam giriş penceresi açılır — normalde yaptığınız gibi giriş yapın
-3. Giriş yapıldıktan sonra uygulama oturum çerezlerinizi algılar ve pencereyi gizler
-4. Bundan sonraki tüm fiyat çekme işlemleri Steam oturumunuzu kullanır — artık 429 hatası yok
-
-Bağlantıyı kesmek için **Disconnect Steam** butonuna tıklayın.
-
----
-
-## Dış Bağımlılıklar
-
-| Servis | Amaç | Ne Zaman |
-|---|---|---|
-| `steamcommunity.com/market/` | Canlı item fiyatları | Fiyat yenilemede |
-| `steamcommunity.com/login/` | Steam giriş sayfası (webview) | Steam'e bağlanırken |
-| `fonts.googleapis.com` | Outfit yazı tipi | Uygulama başlangıcında |
 
 ---
 
