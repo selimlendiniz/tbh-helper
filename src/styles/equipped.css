@@ -1,0 +1,239 @@
+/* Equipped Tab Layout */
+.equipped-characters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.equipped-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: lowercase;
+  margin-bottom: 8px;
+}
+
+.equipped-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.hero-equipment-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.hero-equipment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--hero-theme);
+  opacity: 0.8;
+}
+
+.hero-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 12px;
+}
+
+.hero-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-class-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--hero-theme);
+  letter-spacing: 0.5px;
+}
+
+.hero-level-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.hero-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.eq-val-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 1px;
+}
+
+.eq-val-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent-gold);
+}
+
+.hero-card-content {
+  display: grid;
+  grid-template-columns: 106px 1fr 106px;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Left slots: 2 columns, 3 rows */
+.hero-slots-left {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 6px;
+}
+
+/* Right slots: 2 columns, 2 rows */
+.hero-slots-right {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 6px;
+  align-self: center;
+}
+
+.hero-sprite-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.hero-sprite-svg {
+  width: 100px;
+  height: 100px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+/* Equipped slot element styling */
+.equipped-slot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.equipped-slot-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  letter-spacing: 0.2px;
+}
+
+.equipped-slot-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.equipped-slot-box.item-card-equipped::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  border: 2px solid var(--rarity-color);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.equipped-slot-box.empty {
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.equipped-slot-empty-icon {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.08);
+}
+
+.equipped-slot-price {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: 800;
+  background: #111;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: var(--accent-gold);
+  border: 1px solid var(--border-color);
+  z-index: 2;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.equipped-slot-level {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 8px;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1px 3px;
+  border-radius: 3px;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
+}
+
+.equipped-slot-icon-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.equipped-slot-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.equipped-slot-icon-fallback {
+  font-size: 14px;
+  opacity: 0.2;
+}

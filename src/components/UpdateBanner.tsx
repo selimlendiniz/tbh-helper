@@ -1,0 +1,125 @@
+import React, { useState } from "react";
+import { useUpdateChecker } from "../hooks/useUpdateChecker";
+
+export const UpdateBanner: React.FC = () => {
+  const { updateAvailable } = useUpdateChecker();
+  const [dismissed, setDismissed] = useState(false);
+
+  if (!updateAvailable || dismissed) return null;
+
+  const openRelease = async () => {
+    try {
+      const { invoke } = await import("@tauri-apps/api/core");
+      await invoke("open_in_browser", { url: updateAvailable.html_url });
+    } catch {
+      window.open(updateAvailable.html_url, "_blank");
+    }
+  };
+
+  return (
+    <div style={{
+      position: "fixed",
+      bottom: "20px",
+      right: "20px",
+      zIndex: 9999,
+      background: "linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.06))",
+      border: "1px solid rgba(16, 185, 129, 0.35)",
+      borderRadius: "12px",
+      padding: "14px 18px",
+      maxWidth: "320px",
+      backdropFilter: "blur(12px)",
+      boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+      animation: "slideInUp 0.3s ease",
+    }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+        {/* Icon */}
+        <div style={{
+          fontSize: "22px",
+          lineHeight: 1,
+          flexShrink: 0,
+          marginTop: "2px"
+        }}>🚀</div>
+
+        {/* Content */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#10b981",
+            marginBottom: "2px",
+            letterSpacing: "0.3px"
+          }}>
+            Update Available
+          </div>
+          <div style={{
+            fontSize: "12px",
+            color: "var(--text-muted)",
+            marginBottom: "10px",
+            lineHeight: 1.4
+          }}>
+            <strong style={{ color: "var(--text-primary)" }}>
+              {updateAvailable.name || updateAvailable.tag_name}
+            </strong>{" "}
+            is now available.
+          </div>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              onClick={openRelease}
+              style={{
+                background: "rgba(16, 185, 129, 0.15)",
+                border: "1px solid rgba(16, 185, 129, 0.4)",
+                color: "#10b981",
+                borderRadius: "6px",
+                padding: "4px 12px",
+                fontSize: "11px",
+                fontWeight: 700,
+                cursor: "pointer",
+                letterSpacing: "0.3px",
+              }}
+            >
+              Download
+            </button>
+            <button
+              onClick={() => setDismissed(true)}
+              style={{
+                background: "transparent",
+                border: "1px solid var(--border-color)",
+                color: "var(--text-muted)",
+                borderRadius: "6px",
+                padding: "4px 10px",
+                fontSize: "11px",
+                cursor: "pointer",
+              }}
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+
+        {/* Close */}
+        <button
+          onClick={() => setDismissed(true)}
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "var(--text-muted)",
+            cursor: "pointer",
+            fontSize: "16px",
+            lineHeight: 1,
+            padding: 0,
+            flexShrink: 0,
+          }}
+        >
+          ×
+        </button>
+      </div>
+
+      <style>{`
+        @keyframes slideInUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+};
