@@ -19,7 +19,7 @@ export const UpdateBanner: React.FC = () => {
   return (
     <div style={{
       position: "fixed",
-      bottom: "20px",
+      top: "20px",
       right: "20px",
       zIndex: 9999,
       background: "linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.06))",
@@ -29,7 +29,7 @@ export const UpdateBanner: React.FC = () => {
       maxWidth: "320px",
       backdropFilter: "blur(12px)",
       boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
-      animation: "slideInUp 0.3s ease",
+      animation: "slideInDown 0.3s ease",
     }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
         {/* Icon */}
@@ -115,8 +115,8 @@ export const UpdateBanner: React.FC = () => {
       </div>
 
       <style>{`
-        @keyframes slideInUp {
-          from { opacity: 0; transform: translateY(16px); }
+        @keyframes slideInDown {
+          from { opacity: 0; transform: translateY(-16px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
