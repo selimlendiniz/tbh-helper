@@ -12,7 +12,7 @@
 
 👉 **[Download the latest release](https://github.com/selimlendiniz/tbh-helper/releases/latest)**
 
-1. Download `TBH.Helper_0.0.1_x64-setup.exe` from the Assets section
+1. Download `TBH Helper_0.0.2_x64-setup.exe` from the Assets section
 2. Run the installer
 3. Launch **TBH Helper** from your Start Menu or Desktop shortcut
 
