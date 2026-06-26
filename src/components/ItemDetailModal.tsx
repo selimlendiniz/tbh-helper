@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { fetchUrlWithRetry } from "../utils";
-import { TbhItem } from "../types";
+import { TbhItem, WishlistItem } from "../types";
 import "../styles/item-detail-modal.css";
 
 interface ItemDetailModalProps {
   item: TbhItem | null;
   onClose: () => void;
+  wishlist?: WishlistItem[];
+  onAddToWishlist?: (item: WishlistItem) => void;
+  onRemoveFromWishlist?: (itemKey: string) => void;
 }
 
 interface PricePoint {
   date: string;
+  fullDate?: string;
   price: number;
   volume: number;
   timestamp: number;
@@ -21,13 +25,42 @@ interface ActiveListing {
   count: number;
 }
 
-export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose }) => {
+export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ 
+  item, 
+  onClose,
+  wishlist = [],
+  onAddToWishlist,
+  onRemoveFromWishlist
+}) => {
   if (!item) return null;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<PricePoint[]>([]);
   const [listings, setListings] = useState<ActiveListing[]>([]);
+
+  const [targetPrice, setTargetPrice] = useState<number>(0);
+  const [alertType, setAlertType] = useState<"below" | "above">("below");
+
+  const wishlistedItem = useMemo(() => {
+    if (!item) return undefined;
+    return wishlist.find((w) => w.itemKey === item.itemKey);
+  }, [item, wishlist]);
+
+  const isWishlisted = !!wishlistedItem;
+
+  // Initialize form fields when item changes
+  useEffect(() => {
+    if (item) {
+      if (isWishlisted && wishlistedItem) {
+        setTargetPrice(wishlistedItem.targetPrice);
+        setAlertType(wishlistedItem.alertType);
+      } else {
+        setTargetPrice(item.price || 0);
+        setAlertType("below");
+      }
+    }
+  }, [item, isWishlisted, wishlistedItem]);
   const [hoveredPoint, setHoveredPoint] = useState<PricePoint | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const [activeFilter, setActiveFilter] = useState<"all" | "7d" | "3d" | "1d">("all");
@@ -76,14 +109,23 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose 
               if (Array.isArray(pricesList) && pricesList.length > 0) {
                 parsedHistory = pricesList.map((p: any) => {
                   const d = new Date(p.time * 1000);
-                  const dateClean = d.toLocaleDateString("en-US", {
+                  const dateCleanShort = d.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric"
                   });
+                  const dateCleanFull = d.toLocaleString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false
+                  });
                   let price = parseFloat(p.price_median) || 0;
                   return {
-                    date: dateClean,
+                    date: dateCleanShort,
+                    fullDate: dateCleanFull,
                     price,
                     volume: parseInt(p.purchases) || 0,
                     timestamp: p.time * 1000
@@ -101,15 +143,39 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose 
                 const rawPoints = JSON.parse(historyMatch[1]);
                 parsedHistory = rawPoints.map((p: any) => {
                   const dateRaw = String(p[0]);
-                  const parts = dateRaw.split(" ");
-                  const dateClean = parts.length >= 3 ? `${parts[0]} ${parts[1]} ${parts[2]}` : dateRaw;
+                  const d = new Date(dateRaw);
+                  const timestamp = d.getTime();
+                  const isValid = !isNaN(timestamp);
+                  
+                  let dateCleanShort = dateRaw;
+                  let dateCleanFull = dateRaw;
+                  
+                  if (isValid) {
+                    dateCleanShort = d.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric"
+                    });
+                    dateCleanFull = d.toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false
+                    });
+                  } else {
+                    const parts = dateRaw.split(" ");
+                    dateCleanShort = parts.length >= 3 ? `${parts[0]} ${parts[1]} ${parts[2]}` : dateRaw;
+                  }
+
                   let price = parseFloat(p[1]) || 0;
-                  const timestamp = new Date(dateRaw).getTime();
                   return {
-                    date: dateClean,
+                    date: dateCleanShort,
+                    fullDate: dateCleanFull,
                     price,
                     volume: parseInt(p[2]) || 0,
-                    timestamp: isNaN(timestamp) ? 0 : timestamp
+                    timestamp: isValid ? timestamp : 0
                   };
                 });
               } catch (jsonErr) {
@@ -278,13 +344,18 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose 
 
 
 
-  // Mouse move chart interaction
   const handleMouseMove = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     if (points.length === 0 || !chartRef.current) return;
 
-    const rect = chartRef.current.getBoundingClientRect();
-    const clientX = e.clientX - rect.left;
-    const mouseX = (clientX / rect.width) * chartWidth;
+    const svg = chartRef.current;
+    const point = svg.createSVGPoint();
+    point.x = e.clientX;
+    point.y = e.clientY;
+
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return;
+    const svgPoint = point.matrixTransform(ctm.inverse());
+    const mouseX = svgPoint.x;
 
     let closest = points[0];
     let minDist = Math.abs(closest.x - mouseX);
@@ -523,7 +594,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose 
                         transform: `translate(${hoverPos.x + 10 > chartWidth - 140 ? "-110%" : "10px"}, -50%)`
                       }}
                     >
-                      <div className="tooltip-date">{hoveredPoint.date}</div>
+                      <div className="tooltip-date">{hoveredPoint.fullDate || hoveredPoint.date}</div>
                       <div className="tooltip-stat">Price: <span className="val">{formatPrice(hoveredPoint.price)}</span></div>
                       <div className="tooltip-stat">Volume: <span className="val">{hoveredPoint.volume}</span></div>
                     </div>
@@ -550,9 +621,76 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose 
             )}
           </div>
 
-          {/* Right Column: Active Market Listings */}
-          <div className="modal-listings-container">
-            <h3 className="section-title">Cheapest Active Listings</h3>
+          {/* Right Column: Active Market Listings + Wishlist */}
+          <div className="modal-listings-container" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            
+            {/* Wishlist Settings Block */}
+            <div className="wishlist-settings-card" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", padding: "16px", borderRadius: "10px", display: "flex", flexDirection: "column", gap: "10px" }}>
+              <h3 className="section-title" style={{ margin: 0, fontSize: "14px", color: "var(--accent-gold)", display: "flex", alignItems: "center", gap: "6px" }}>
+                <span>⭐ Price Alerts & Wishlist</span>
+              </h3>
+              
+              {isWishlisted && wishlistedItem ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <p style={{ fontSize: "12px", color: "var(--text-muted)", margin: 0 }}>
+                    Tracking: Alerts when price goes <strong>{wishlistedItem.alertType === "below" ? "below" : "above"} ${wishlistedItem.targetPrice.toFixed(2)}</strong>.
+                  </p>
+                  <button 
+                    onClick={() => onRemoveFromWishlist && onRemoveFromWishlist(item.itemKey)}
+                    className="clear-history-btn" 
+                    style={{ padding: "6px", width: "100%", justifyContent: "center" }}
+                  >
+                    🗑 Stop Tracking
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "4px" }}>
+                      <span style={{ fontSize: "10px", color: "var(--text-dark)", fontWeight: "bold" }}>TARGET PRICE ($)</span>
+                      <input 
+                        type="number" 
+                        step="0.01" 
+                        value={targetPrice} 
+                        onChange={(e) => setTargetPrice(parseFloat(e.target.value) || 0)} 
+                        style={{ background: "rgba(0,0,0,0.2)", border: "1px solid var(--border-color)", color: "var(--text-main)", padding: "6px 8px", borderRadius: "6px", fontSize: "12px", width: "100%" }}
+                      />
+                    </div>
+                    <div style={{ flex: 1.2, display: "flex", flexDirection: "column", gap: "4px" }}>
+                      <span style={{ fontSize: "10px", color: "var(--text-dark)", fontWeight: "bold" }}>CONDITION</span>
+                      <select 
+                        value={alertType} 
+                        onChange={(e) => setAlertType(e.target.value as "below" | "above")}
+                        style={{ background: "rgba(0,0,0,0.2)", border: "1px solid var(--border-color)", color: "var(--text-main)", padding: "6px 8px", borderRadius: "6px", fontSize: "12px", width: "100%", cursor: "pointer" }}
+                      >
+                        <option value="below">Drops below or equals</option>
+                        <option value="above">Rises above or equals</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => onAddToWishlist && onAddToWishlist({
+                      itemKey: item.itemKey,
+                      name: item.name,
+                      grade: item.grade,
+                      gradeColor: item.gradeColor,
+                      iconUrl: item.iconUrl,
+                      marketHashName: item.marketHashName,
+                      targetPrice,
+                      alertType
+                    })}
+                    style={{ background: "rgba(255, 184, 48, 0.1)", border: "1px solid rgba(255, 184, 48, 0.3)", color: "var(--accent-gold)", padding: "8px", borderRadius: "6px", fontSize: "12px", fontWeight: "600", cursor: "pointer", transition: "all 0.15s ease", marginTop: "4px" }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255, 184, 48, 0.2)"}
+                    onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255, 184, 48, 0.1)"}
+                  >
+                    ⭐ Track Price
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h3 className="section-title">Cheapest Active Listings</h3>
             {loading ? (
               <div className="modal-inner-loader">
                 <div className="loading-spinner" />
@@ -582,10 +720,11 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose 
               </div>
             )}
           </div>
-
         </div>
 
       </div>
+
     </div>
-  );
+  </div>
+);
 };

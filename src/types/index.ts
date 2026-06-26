@@ -60,5 +60,30 @@ export interface AnalyticsData {
   topHoldings: TbhItem[];
 }
 
-export type TabType = "all" | "stash" | "inventory" | "equipped" | "market" | "analytics";
+export type TabType = "all" | "stash" | "inventory" | "equipped" | "market" | "analytics" | "wishlist";
 export type SortType = "value" | "name" | "grade";
+
+export interface PortfolioPoint {
+  date: string;
+  timestamp: number;
+  value: number;
+}
+
+export interface WishlistItem {
+  itemKey: string;
+  name: string;
+  grade: string;
+  gradeColor: string;
+  iconUrl: string | null;
+  marketHashName: string;
+  targetPrice: number;
+  alertType: "below" | "above";
+  lastNotifiedPrice?: number | null;
+}
+
+export interface InAppNotification {
+  id: string;
+  title: string;
+  message: string;
+  timestamp: number;
+}

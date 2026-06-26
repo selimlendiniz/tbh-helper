@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
-import { TbhItem, ParsedSave, MarketItem, AnalyticsData, TabType, SortType } from "../types";
+import { isPermissionGranted, requestPermission, sendNotification } from "@tauri-apps/plugin-notification";
+import { TbhItem, ParsedSave, MarketItem, AnalyticsData, TabType, SortType, PortfolioPoint, WishlistItem, InAppNotification } from "../types";
 import { GRADE_MAP, GRADE_COLORS, HERO_CLASS_NAMES, GRADE_RANK } from "../constants";
 import { PriceManager } from "../services/price/PriceManager";
 
@@ -16,277 +17,59 @@ export function useSaveData() {
   const [searchQuery, setSearchQuery] = useState("");
   const [gradeFilter, setGradeFilter] = useState("all");
   const [sortBy, setSortBy] = useState<SortType>("value");
+  const [hideNoPriceItems, setHideNoPriceItems] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Initializing...");
   const [isLive, setIsLive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingPrices, setLoadingPrices] = useState(false);
   const [steamRateLimited, setSteamRateLimited] = useState(false);
   const [steamLoggedIn, setSteamLoggedIn] = useState(false);
-
-  useEffect(() => {
-    invoke<boolean>("is_steam_logged_in")
-      .then((loggedIn) => setSteamLoggedIn(loggedIn))
-      .catch((err) => console.error("Failed to check Steam login:", err));
-  }, []);
-
-  const connectSteam = async () => {
+  const [refreshInterval, setRefreshIntervalState] = useState<number>(() => {
     try {
-      const { WebviewWindow } = await import("@tauri-apps/api/webviewWindow");
-      
-      const label = "steam_login_window";
-      const loginWin = new WebviewWindow(label, {
-        url: "https://steamcommunity.com/login/home/?goto=",
-        title: "Steam Login",
-        width: 800,
-        height: 600,
-        center: true,
-      });
-
-      setStatusMessage("Waiting for Steam login...");
-      
-      const interval = setInterval(async () => {
-        try {
-          const success = await invoke<boolean>("get_steam_cookies", { label });
-          if (success) {
-            clearInterval(interval);
-            setSteamLoggedIn(true);
-            setStatusMessage("Successfully connected to Steam!");
-            await loginWin.hide();
-            refreshPrices(false);
-          }
-        } catch (e) {
-          console.error("Error checking cookies:", e);
-        }
-      }, 3000);
-
-      loginWin.once("tauri://destroyed", () => {
-        clearInterval(interval);
-        setStatusMessage("Steam login window closed.");
-      });
-    } catch (err) {
-      console.error("Failed to connect Steam:", err);
-      setStatusMessage("Failed to launch Steam login window.");
-    }
-  };
-
-  const disconnectSteam = async () => {
-    try {
-      await invoke("logout_steam");
-      setSteamLoggedIn(false);
-      setStatusMessage("Disconnected from Steam.");
-      try {
-        const { WebviewWindow } = await import("@tauri-apps/api/webviewWindow");
-        const win = await WebviewWindow.getByLabel("steam_login_window");
-        if (win) {
-          await win.close();
-        }
-      } catch (e) {
-        console.warn("Failed to find or close steam_login_window:", e);
-      }
-    } catch (err) {
-      console.error("Failed to logout Steam:", err);
-      setStatusMessage("Failed to disconnect from Steam.");
-    }
-  };
-
-  const priceManager = useMemo(() => new PriceManager(), []);
-  const abortControllerRef = useRef<AbortController | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
-  }, []);
-
-  const stopFetching = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      abortControllerRef.current = null;
-    }
-    setLoadingPrices(false);
-    setStatusMessage("Price fetching stopped by user.");
-  };
-
-  const refreshPrices = async (clearCache = false) => {
-    if (loadingPrices) return;
-
-    if (clearCache) {
-      try {
-        localStorage.removeItem("steam_prices_cache");
-      } catch (e) {
-        console.warn("Failed to clear cached prices:", e);
-      }
-      setPrices({});
-    }
-
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    abortControllerRef.current = new AbortController();
-    const signal = abortControllerRef.current.signal;
-
-    setSteamRateLimited(false);
-    setLoadingPrices(true);
-    setStatusMessage("Updating Steam Market prices in background...");
-    try {
-      const now = Date.now();
-      const { prices: sPrices } = await priceManager.fetchPrices((incrementalPrices, current, total, has429) => {
-        if (signal.aborted) return;
-        if (has429) {
-          setSteamRateLimited(true);
-        }
-        const mappedIncremental: Record<string, { price: number; updatedAt: number }> = {};
-        for (const key in incrementalPrices) {
-          mappedIncremental[key] = { price: incrementalPrices[key], updatedAt: now };
-        }
-        setPrices((prev) => ({ ...prev, ...mappedIncremental }));
-        setStatusMessage(`Updating prices (Page ${current}/${total})...`);
-      }, signal);
-
-      if (signal.aborted) {
-        setStatusMessage("Price fetching stopped by user.");
-        return;
-      }
-
-      setStatusMessage("Market prices updated successfully from Steam.");
-      
-      setPrices((prev) => {
-        const merged = { ...prev };
-        for (const key in sPrices) {
-          merged[key] = { price: sPrices[key], updatedAt: now };
-        }
-        try {
-          localStorage.setItem("steam_prices_cache", JSON.stringify(merged));
-        } catch (e) {
-          console.warn("Failed to cache prices:", e);
-        }
-        return merged;
-      });
-    } catch (err) {
-      if (signal.aborted) {
-        setStatusMessage("Price fetching stopped by user.");
-        return;
-      }
-      console.error("Failed to fetch prices:", err);
-      if (String(err).includes("429")) {
-        setSteamRateLimited(true);
-      }
-      setStatusMessage("Failed to fetch Steam Market prices.");
-    } finally {
-      if (!signal.aborted) {
-        setLoadingPrices(false);
-      }
-    }
-  };
-
-  const refreshPricesRef = useRef(refreshPrices);
-  useEffect(() => {
-    refreshPricesRef.current = refreshPrices;
+      const saved = localStorage.getItem("price_refresh_interval_min");
+      const parsed = saved ? parseInt(saved) : 15;
+      return isNaN(parsed) || parsed < 10 ? 15 : parsed;
+    } catch { return 15; }
   });
 
-  // Setup periodic refresh every 15 minutes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("Periodic background refresh triggered.");
-      refreshPricesRef.current(false); // Do NOT clear cache
-    }, 15 * 60 * 1000); // 15 minutes
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Fetch prices from Steam on startup
-  useEffect(() => {
-    // 1. Try to load cached prices from localStorage first
-    try {
-      const cached = localStorage.getItem("steam_prices_cache");
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        const migrated: Record<string, { price: number; updatedAt: number }> = {};
-        for (const key in parsed) {
-          const val = parsed[key];
-          if (typeof val === "number") {
-            migrated[key] = { price: val, updatedAt: Date.now() };
-          } else if (val && typeof val === "object" && typeof val.price === "number") {
-            migrated[key] = { price: val.price, updatedAt: val.updatedAt || Date.now() };
-          }
-        }
-        setPrices(migrated);
-        console.log("Loaded prices from localStorage cache.");
-      }
-    } catch (e) {
-      console.warn("Failed to load cached prices:", e);
-    }
-
-    // 2. Load local save file immediately without blocking
-    loadSaveFile();
-  }, [priceManager]);
-
-  // Listen to file watcher updates
-  useEffect(() => {
-    let unlisten: any = null;
-
-    listen<string>("save_updated", (event) => {
-      try {
-        const parsed = JSON.parse(event.payload);
-        setSaveData(parsed);
-        setIsLive(true);
-        setStatusMessage("Save file updated in real-time.");
-      } catch (err) {
-        console.error("Failed to parse watcher payload:", err);
-        setStatusMessage("Real-time save parsing error.");
-      }
-    }).then((fn) => {
-      unlisten = fn;
-    });
-
-    // Start background watcher on Rust backend
-    invoke("start_save_watcher")
-      .then(() => {
-        console.log("Save watcher thread launched on backend.");
-      })
-      .catch((err) => {
-        console.error("Failed to start save watcher:", err);
-      });
-
-    return () => {
-      if (unlisten) {
-        unlisten();
-      }
-    };
-  }, []);
-
-  const loadSaveFile = () => {
-    setStatusMessage("Decrypting SaveFile_Live.es3...");
-    invoke<string>("decrypt_save_file")
-      .then((res) => {
-        const parsed = JSON.parse(res);
-        setSaveData(parsed);
-        setIsLive(true);
-        setStatusMessage("Save file loaded successfully.");
-      })
-      .catch((err) => {
-        console.error("Decrypt save file command failed:", err);
-        setStatusMessage("Save file not loaded. Make sure the game is running or you have created a character.");
-        setIsLive(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const setRefreshInterval = (minutes: number) => {
+    const clamped = Math.max(10, minutes);
+    setRefreshIntervalState(clamped);
+    try { localStorage.setItem("price_refresh_interval_min", String(clamped)); } catch {}
+    // Restart the running interval immediately
+    window.dispatchEvent(new Event("tbh:restart-price-interval"));
   };
 
-  const selectManualSaveFile = () => {
-    setStatusMessage("Opening file dialog...");
-    invoke<string>("select_custom_save_file")
-      .then((path) => {
-        setStatusMessage(`Loaded custom save file: ${path}`);
-        loadSaveFile();
-      })
-      .catch((err) => {
-        console.error("Select custom save file failed:", err);
-        setStatusMessage(err || "Save file selection cancelled.");
-      });
+  const [newItemAlertThreshold, setNewItemAlertThresholdState] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("tbh_new_item_alert_threshold");
+      const parsed = saved ? parseFloat(saved) : 0;
+      return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+    } catch { return 0; }
+  });
+
+  const setNewItemAlertThreshold = (val: number) => {
+    const clamped = Math.max(0, val);
+    setNewItemAlertThresholdState(clamped);
+    try { localStorage.setItem("tbh_new_item_alert_threshold", String(clamped)); } catch {}
+  };
+
+  const [portfolioHistory, setPortfolioHistory] = useState<PortfolioPoint[]>(() => {
+    try {
+      const saved = localStorage.getItem("tbh_portfolio_history");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const clearPortfolioHistory = () => {
+    try {
+      localStorage.removeItem("tbh_portfolio_history");
+      setPortfolioHistory([]);
+    } catch (err) {
+      console.error("Failed to clear portfolio history:", err);
+    }
   };
 
   // Parse items from save structure
@@ -527,6 +310,546 @@ export function useSaveData() {
 
   }, [saveData, prices]);
 
+  const [wishlist, setWishlist] = useState<WishlistItem[]>(() => {
+    try {
+      const saved = localStorage.getItem("tbh_wishlist");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [inAppNotifications, setInAppNotifications] = useState<InAppNotification[]>([]);
+
+  // Request desktop notification permission on mount
+  useEffect(() => {
+    const initNotifications = async () => {
+      try {
+        let granted = await isPermissionGranted();
+        if (!granted) {
+          const permission = await requestPermission();
+          granted = permission === "granted";
+        }
+      } catch (err) {
+        console.error("Failed to check/request notification permission:", err);
+      }
+    };
+    initNotifications();
+  }, []);
+
+  const addToWishlist = (item: WishlistItem) => {
+    setWishlist((prev) => {
+      const idx = prev.findIndex((w) => w.itemKey === item.itemKey);
+      let updated: WishlistItem[];
+      if (idx >= 0) {
+        updated = [...prev];
+        updated[idx] = item;
+      } else {
+        updated = [...prev, item];
+      }
+      try {
+        localStorage.setItem("tbh_wishlist", JSON.stringify(updated));
+      } catch (err) {
+        console.error("Failed to save wishlist:", err);
+      }
+      return updated;
+    });
+  };
+
+  const removeFromWishlist = (itemKey: string) => {
+    setWishlist((prev) => {
+      const updated = prev.filter((w) => w.itemKey !== itemKey);
+      try {
+        localStorage.setItem("tbh_wishlist", JSON.stringify(updated));
+      } catch (err) {
+        console.error("Failed to save wishlist:", err);
+      }
+      return updated;
+    });
+  };
+
+  const dismissNotification = (id: string) => {
+    setInAppNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
+
+  // Check wishlist prices and trigger alerts
+  useEffect(() => {
+    if (loadingPrices || loading || wishlist.length === 0) return;
+
+    let wishlistChanged = false;
+    const updatedWishlist = wishlist.map((item) => {
+      const priceData = prices[item.marketHashName];
+      if (!priceData) return item;
+
+      const currentPrice = priceData.price;
+      if (currentPrice === null) return item;
+
+      let shouldAlert = false;
+      if (item.alertType === "below" && currentPrice <= item.targetPrice) {
+        shouldAlert = true;
+      } else if (item.alertType === "above" && currentPrice >= item.targetPrice) {
+        shouldAlert = true;
+      }
+
+      if (shouldAlert && item.lastNotifiedPrice !== currentPrice) {
+        // 1. Native Windows toast notification via Tauri Plugin
+        isPermissionGranted().then((granted) => {
+          if (granted) {
+            sendNotification({
+              title: `TBH Price Alert: ${item.name}`,
+              body: `${item.name} is now $${currentPrice.toFixed(2)} (${item.alertType === "below" ? "below" : "above"} $${item.targetPrice.toFixed(2)})!`
+            });
+          }
+        }).catch((err) => {
+          console.error("Failed to trigger desktop notification:", err);
+        });
+
+        // 2. In-app persistent notification
+        const notifId = `${item.itemKey}_${currentPrice}_${Date.now()}`;
+        setInAppNotifications((prev) => [
+          ...prev,
+          {
+            id: notifId,
+            title: `⭐ Price Alert: ${item.name}`,
+            message: `Target price reached! The item is currently listed at $${currentPrice.toFixed(2)} (${item.alertType === "below" ? "drops below" : "rises above"} $${item.targetPrice.toFixed(2)}).`,
+            timestamp: Date.now()
+          }
+        ]);
+
+        wishlistChanged = true;
+        return {
+          ...item,
+          lastNotifiedPrice: currentPrice
+        };
+      }
+
+      // Reset lastNotifiedPrice if the price goes back out of range
+      if (!shouldAlert && item.lastNotifiedPrice !== null && item.lastNotifiedPrice !== undefined) {
+        wishlistChanged = true;
+        return {
+          ...item,
+          lastNotifiedPrice: null
+        };
+      }
+
+      return item;
+    });
+
+    if (wishlistChanged) {
+      setWishlist(updatedWishlist);
+      try {
+        localStorage.setItem("tbh_wishlist", JSON.stringify(updatedWishlist));
+      } catch (err) {
+        console.error("Failed to save updated wishlist:", err);
+      }
+    }
+  }, [prices, loadingPrices, loading, wishlist]);
+
+  const prevItemsQuantities = useRef<Record<string, number> | null>(null);
+
+  useEffect(() => {
+    if (!parsedSave) {
+      prevItemsQuantities.current = null;
+      return;
+    }
+
+    const getTrackingKey = (item: TbhItem) => {
+      const enchantsSig = item.enchantData
+        ? item.enchantData.map((e: any) => `${e.StatType}:${e.Value}:${e.Tier}`).join(",")
+        : "";
+      return `${item.lookupKey}_${item.grade}_${item.level || 0}_${item.isChaotic || false}_${enchantsSig}`;
+    };
+
+    const currentQuantities: Record<string, number> = {};
+    for (const item of parsedSave.combined) {
+      const key = getTrackingKey(item);
+      currentQuantities[key] = (currentQuantities[key] || 0) + item.quantity;
+    }
+
+    // If initial load, populate map and skip notification
+    if (prevItemsQuantities.current === null) {
+      prevItemsQuantities.current = currentQuantities;
+      return;
+    }
+
+    // Check for new/increased high-value items
+    if (newItemAlertThreshold > 0) {
+      for (const item of parsedSave.combined) {
+        const key = getTrackingKey(item);
+        const prevQty = prevItemsQuantities.current[key] || 0;
+        const currentQty = currentQuantities[key];
+
+        if (currentQty > prevQty) {
+          const addedQty = currentQty - prevQty;
+          const individualPrice = item.price;
+
+          if (individualPrice !== null && individualPrice >= newItemAlertThreshold) {
+            // Trigger native OS notification
+            isPermissionGranted().then((granted) => {
+              if (granted) {
+                sendNotification({
+                  title: `⭐ High-Value Item Added!`,
+                  body: `${addedQty}x ${item.name} (${item.grade}) worth $${individualPrice.toFixed(2)} each has been added!`
+                });
+              }
+            }).catch((err) => {
+              console.error("Failed to trigger added item native notification:", err);
+            });
+
+            // Trigger in-app notification
+            const notifId = `added_${item.itemKey}_${Date.now()}_${Math.random()}`;
+            setInAppNotifications((prev) => [
+              ...prev,
+              {
+                id: notifId,
+                title: `⭐ High-Value Item Added!`,
+                message: `${addedQty}x ${item.name} (${item.grade}) worth $${individualPrice.toFixed(2)} each has been added to your inventory/stash.`,
+                timestamp: Date.now()
+              }
+            ]);
+          }
+        }
+      }
+    }
+
+    // Update quantities map cache
+    prevItemsQuantities.current = currentQuantities;
+  }, [parsedSave, newItemAlertThreshold]);
+
+  useEffect(() => {
+    invoke<boolean>("is_steam_logged_in")
+      .then((loggedIn) => setSteamLoggedIn(loggedIn))
+      .catch((err) => console.error("Failed to check Steam login:", err));
+  }, []);
+
+  const connectSteam = async () => {
+    try {
+      const { WebviewWindow } = await import("@tauri-apps/api/webviewWindow");
+      
+      const label = "steam_login_window";
+      const loginWin = new WebviewWindow(label, {
+        url: "https://steamcommunity.com/login/home/?goto=",
+        title: "Steam Login",
+        width: 800,
+        height: 600,
+        center: true,
+      });
+
+      setStatusMessage("Waiting for Steam login...");
+      
+      const interval = setInterval(async () => {
+        try {
+          const success = await invoke<boolean>("get_steam_cookies", { label });
+          if (success) {
+            clearInterval(interval);
+            setSteamLoggedIn(true);
+            setStatusMessage("Successfully connected to Steam! Press 'Refresh Prices' to fetch market data.");
+            await loginWin.hide();
+          }
+        } catch (e) {
+          console.error("Error checking cookies:", e);
+        }
+      }, 3000);
+
+      loginWin.once("tauri://destroyed", () => {
+        clearInterval(interval);
+        setStatusMessage("Steam login window closed.");
+      });
+    } catch (err) {
+      console.error("Failed to connect Steam:", err);
+      setStatusMessage("Failed to launch Steam login window.");
+    }
+  };
+
+  const disconnectSteam = async () => {
+    try {
+      await invoke("logout_steam");
+      setSteamLoggedIn(false);
+      setStatusMessage("Disconnected from Steam.");
+      try {
+        const { WebviewWindow } = await import("@tauri-apps/api/webviewWindow");
+        const win = await WebviewWindow.getByLabel("steam_login_window");
+        if (win) {
+          await win.close();
+        }
+      } catch (e) {
+        console.warn("Failed to find or close steam_login_window:", e);
+      }
+    } catch (err) {
+      console.error("Failed to logout Steam:", err);
+      setStatusMessage("Failed to disconnect from Steam.");
+    }
+  };
+
+  const priceManager = useMemo(() => new PriceManager(), []);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const shouldTakeSnapshotRef = useRef(false);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  const stopFetching = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setLoadingPrices(false);
+    setStatusMessage("Price fetching stopped by user.");
+  };
+
+  const refreshPrices = async (clearCache = false) => {
+    if (loadingPrices) return;
+
+    if (clearCache) {
+      try {
+        localStorage.removeItem("steam_prices_cache");
+      } catch (e) {
+        console.warn("Failed to clear cached prices:", e);
+      }
+      setPrices({});
+    }
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
+
+    setSteamRateLimited(false);
+    setLoadingPrices(true);
+    setStatusMessage("Updating Steam Market prices in background...");
+    try {
+      const now = Date.now();
+      const { prices: sPrices } = await priceManager.fetchPrices((incrementalPrices, current, total, has429) => {
+        if (signal.aborted) return;
+        if (has429) {
+          setSteamRateLimited(true);
+        }
+        const mappedIncremental: Record<string, { price: number; updatedAt: number }> = {};
+        for (const key in incrementalPrices) {
+          mappedIncremental[key] = { price: incrementalPrices[key], updatedAt: now };
+        }
+        setPrices((prev) => ({ ...prev, ...mappedIncremental }));
+        setStatusMessage(`Updating prices (Page ${current}/${total})...`);
+      }, signal);
+
+      if (signal.aborted) {
+        setStatusMessage("Price fetching stopped by user.");
+        return;
+      }
+
+      setStatusMessage("Market prices updated successfully from Steam.");
+      
+      setPrices((prev) => {
+        const merged = { ...prev };
+        for (const key in sPrices) {
+          merged[key] = { price: sPrices[key], updatedAt: now };
+        }
+        try {
+          localStorage.setItem("steam_prices_cache", JSON.stringify(merged));
+        } catch (e) {
+          console.warn("Failed to cache prices:", e);
+        }
+        return merged;
+      });
+      shouldTakeSnapshotRef.current = true;
+    } catch (err) {
+      if (signal.aborted) {
+        setStatusMessage("Price fetching stopped by user.");
+        return;
+      }
+      console.error("Failed to fetch prices:", err);
+      if (String(err).includes("429")) {
+        setSteamRateLimited(true);
+      }
+      setStatusMessage("Failed to fetch Steam Market prices.");
+    } finally {
+      if (!signal.aborted) {
+        setLoadingPrices(false);
+      }
+    }
+  };
+
+  const refreshPricesRef = useRef(refreshPrices);
+  useEffect(() => {
+    refreshPricesRef.current = refreshPrices;
+  });
+
+  const refreshIntervalRef = useRef(refreshInterval);
+  useEffect(() => { refreshIntervalRef.current = refreshInterval; }, [refreshInterval]);
+
+  // Setup periodic refresh
+  useEffect(() => {
+    const tick = () => {
+      console.log(`Periodic background refresh triggered (every ${refreshIntervalRef.current} min).`);
+      refreshPricesRef.current(false);
+    };
+    const ms = refreshIntervalRef.current * 60 * 1000;
+    let interval = setInterval(tick, ms);
+
+    // Restart interval whenever refreshInterval changes
+    const restartInterval = () => {
+      clearInterval(interval);
+      interval = setInterval(tick, refreshIntervalRef.current * 60 * 1000);
+    };
+    // Expose restart via a custom event so the setter can trigger it
+    window.addEventListener("tbh:restart-price-interval", restartInterval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("tbh:restart-price-interval", restartInterval);
+    };
+  }, []);
+
+  // Fetch prices from Steam on startup
+  useEffect(() => {
+    // 1. Try to load cached prices from localStorage first
+    try {
+      const cached = localStorage.getItem("steam_prices_cache");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        const migrated: Record<string, { price: number; updatedAt: number }> = {};
+        for (const key in parsed) {
+          const val = parsed[key];
+          if (typeof val === "number") {
+            migrated[key] = { price: val, updatedAt: Date.now() };
+          } else if (val && typeof val === "object" && typeof val.price === "number") {
+            migrated[key] = { price: val.price, updatedAt: val.updatedAt || Date.now() };
+          }
+        }
+        setPrices(migrated);
+        shouldTakeSnapshotRef.current = true;
+        console.log("Loaded prices from localStorage cache.");
+      }
+    } catch (e) {
+      console.warn("Failed to load cached prices:", e);
+    }
+
+    // 2. Load local save file immediately without blocking
+    loadSaveFile();
+  }, [priceManager]);
+
+  // Listen to file watcher updates
+  useEffect(() => {
+    let unlisten: any = null;
+
+    listen<string>("save_updated", (event) => {
+      try {
+        const parsed = JSON.parse(event.payload);
+        setSaveData(parsed);
+        setIsLive(true);
+        setStatusMessage("Save file updated in real-time.");
+      } catch (err) {
+        console.error("Failed to parse watcher payload:", err);
+        setStatusMessage("Real-time save parsing error.");
+      }
+    }).then((fn) => {
+      unlisten = fn;
+    });
+
+    // Start background watcher on Rust backend
+    invoke("start_save_watcher")
+      .then(() => {
+        console.log("Save watcher thread launched on backend.");
+      })
+      .catch((err) => {
+        console.error("Failed to start save watcher:", err);
+      });
+
+    return () => {
+      if (unlisten) {
+        unlisten();
+      }
+    };
+  }, []);
+
+  const loadSaveFile = () => {
+    setStatusMessage("Decrypting SaveFile_Live.es3...");
+    invoke<string>("decrypt_save_file")
+      .then((res) => {
+        const parsed = JSON.parse(res);
+        setSaveData(parsed);
+        setIsLive(true);
+        setStatusMessage("Save file loaded successfully.");
+      })
+      .catch((err) => {
+        console.error("Decrypt save file command failed:", err);
+        setStatusMessage("Save file not loaded. Make sure the game is running or you have created a character.");
+        setIsLive(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const selectManualSaveFile = () => {
+    setStatusMessage("Opening file dialog...");
+    invoke<string>("select_custom_save_file")
+      .then((path) => {
+        setStatusMessage(`Loaded custom save file: ${path}`);
+        loadSaveFile();
+      })
+      .catch((err) => {
+        console.error("Select custom save file failed:", err);
+        setStatusMessage(err || "Save file selection cancelled.");
+      });
+  };
+
+
+  useEffect(() => {
+    if (loading || loadingPrices || !parsedSave || parsedSave.totalStashValue <= 0) return;
+    if (!shouldTakeSnapshotRef.current) return;
+    shouldTakeSnapshotRef.current = false;
+
+    try {
+      const saved = localStorage.getItem("tbh_portfolio_history");
+      let historyList: PortfolioPoint[] = saved ? JSON.parse(saved) : [];
+      if (!Array.isArray(historyList)) historyList = [];
+
+      const nowStr = new Date().toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+
+      const lastPoint = historyList[historyList.length - 1];
+      const todayVal = parsedSave.totalStashValue;
+
+      let changed = false;
+      if (lastPoint && lastPoint.date === nowStr) {
+        if (Math.abs(lastPoint.value - todayVal) > 0.01) {
+          lastPoint.value = todayVal;
+          lastPoint.timestamp = Date.now();
+          changed = true;
+        }
+      } else {
+        historyList.push({
+          date: nowStr,
+          timestamp: Date.now(),
+          value: todayVal
+        });
+        if (historyList.length > 1000) {
+          historyList.shift();
+        }
+        changed = true;
+      }
+
+      if (changed) {
+        localStorage.setItem("tbh_portfolio_history", JSON.stringify(historyList));
+        setPortfolioHistory([...historyList]);
+      }
+    } catch (err) {
+      console.error("Failed to update portfolio history:", err);
+    }
+  }, [parsedSave?.totalStashValue, loading, loadingPrices]);
+
   // Tab Item Filter & Sort
   const currentTabItems = useMemo(() => {
     if (!parsedSave) return [];
@@ -583,6 +906,7 @@ export function useSaveData() {
   // Market Explorer items
   const marketExplorerItems = useMemo<MarketItem[]>(() => {
     const list: MarketItem[] = [];
+    const seen = new Set<string>();
     
     const names = tbhData.names;
     const properties = tbhData.properties;
@@ -593,15 +917,17 @@ export function useSaveData() {
       
       const gradeCode = prop.g || "COM";
       const grade = GRADE_MAP[gradeCode] || "Common";
-      if (!isMaterial && grade !== "Legendary" && grade !== "Immortal" && grade !== "Arcana" && grade !== "Beyond" && grade !== "Celestial" && grade !== "Divine" && grade !== "Cosmic") {
-        continue;
-      }
       
       const name = names[key] || "Unknown";
       let marketHashName = name;
       if (!isMaterial) {
         marketHashName = name.includes(`(${grade})`) ? `${name} A` : `${name} (${grade}) A`;
       }
+      
+      if (seen.has(marketHashName)) {
+        continue;
+      }
+      seen.add(marketHashName);
       
       const priceData = prices[marketHashName];
       const isExpired = priceData && (Date.now() - priceData.updatedAt > 60 * 60 * 1000);
@@ -627,6 +953,9 @@ export function useSaveData() {
     }
     
     let filtered = list;
+    if (hideNoPriceItems) {
+      filtered = filtered.filter((item) => item.price !== null);
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       filtered = filtered.filter((item) => item.name.toLowerCase().includes(q));
@@ -652,8 +981,8 @@ export function useSaveData() {
       return 0;
     });
     
-    return filtered.slice(0, 100);
-  }, [prices, searchQuery, gradeFilter, sortBy]);
+    return filtered;
+  }, [prices, searchQuery, gradeFilter, sortBy, hideNoPriceItems]);
 
   // Analytics Computations
   const analyticsData = useMemo<AnalyticsData | null>(() => {
@@ -721,25 +1050,39 @@ export function useSaveData() {
     setGradeFilter,
     sortBy,
     setSortBy,
+    hideNoPriceItems,
+    setHideNoPriceItems,
     statusMessage,
     isLive,
     loading,
     loadingPrices,
     steamRateLimited,
     steamLoggedIn,
+    newItemAlertThreshold,
     
     // Data
     parsedSave,
     currentTabItems,
     marketExplorerItems,
     analyticsData,
+    portfolioHistory,
+    wishlist,
+    inAppNotifications,
+    prices,
     
     // Actions
     loadSaveFile,
     selectManualSaveFile,
     refreshPrices,
+    refreshInterval,
+    setRefreshInterval,
     connectSteam,
     disconnectSteam,
     stopFetching,
+    clearPortfolioHistory,
+    addToWishlist,
+    removeFromWishlist,
+    dismissNotification,
+    setNewItemAlertThreshold,
   };
 }

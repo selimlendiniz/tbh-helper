@@ -78,3 +78,159 @@
   border-radius: 4px;
   background-color: var(--color);
 }
+
+/* Portfolio History Chart specific styles */
+.portfolio-history-panel {
+  grid-column: 1 / -1;
+  position: relative;
+}
+
+.chart-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  padding: 10px 0;
+}
+
+.interactive-svg-chart {
+  display: block;
+  overflow: visible;
+}
+
+.grid-line {
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.axis-label {
+  font-size: 10px;
+  fill: var(--text-dark);
+  font-family: var(--font-sans);
+}
+
+.axis-label.y-axis {
+  text-anchor: end;
+}
+
+.axis-label.x-axis {
+  text-anchor: middle;
+}
+
+.axis-label.x-axis.start {
+  text-anchor: start;
+}
+
+.axis-label.x-axis.end {
+  text-anchor: end;
+}
+
+.hover-vertical-line {
+  stroke: rgba(255, 184, 48, 0.25);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.hover-point-dot {
+  filter: drop-shadow(0 0 6px var(--accent-gold));
+  transition: r 0.1s ease;
+}
+
+.chart-hover-tooltip {
+  position: absolute;
+  background: rgba(17, 19, 26, 0.95);
+  border: 1px solid var(--border-color-hover);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  pointer-events: none;
+  z-index: 100;
+  font-family: var(--font-sans);
+  min-width: 130px;
+  backdrop-filter: blur(8px);
+}
+
+.tooltip-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 4px;
+}
+
+.tooltip-stat {
+  font-size: 12px;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tooltip-stat .val {
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.clear-history-btn {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clear-history-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #f87171;
+}
+
+.portfolio-onboarding-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border: 1.5px dashed var(--border-color);
+  border-radius: 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.01);
+  color: var(--text-muted);
+  gap: 10px;
+}
+
+.portfolio-onboarding-icon {
+  font-size: 32px;
+  opacity: 0.6;
+}
+
+.portfolio-onboarding-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.portfolio-onboarding-desc {
+  font-size: 13px;
+  max-width: 420px;
+  line-height: 1.5;
+}
+

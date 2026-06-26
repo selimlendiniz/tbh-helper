@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SettingsModal } from "./components/SettingsModal";
 import { useSaveData } from "./hooks/useSaveData";
 import { GameTooltip, useTooltip } from "./components/GameTooltip";
 import { Header } from "./components/Header";
@@ -9,6 +10,8 @@ import { AnalyticsPanel } from "./components/AnalyticsPanel";
 import { EquippedPanel } from "./components/EquippedPanel";
 import { LoadingState, NoSaveState } from "./components/EmptyState";
 import { ItemDetailModal } from "./components/ItemDetailModal";
+import { WishlistPanel } from "./components/WishlistPanel";
+import { NotificationStack } from "./components/NotificationStack";
 import { UpdateBanner } from "./components/UpdateBanner";
 import { TbhItem } from "./types";
 import "./App.css";
@@ -54,6 +57,7 @@ export default function App() {
   }
 
   const [selectedDetailItem, setSelectedDetailItem] = useState<TbhItem | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const {
     activeTab,
     setActiveTab,
@@ -63,6 +67,8 @@ export default function App() {
     setGradeFilter,
     sortBy,
     setSortBy,
+    hideNoPriceItems,
+    setHideNoPriceItems,
     statusMessage,
     isLive,
     loading,
@@ -70,15 +76,27 @@ export default function App() {
     currentTabItems,
     marketExplorerItems,
     analyticsData,
+    portfolioHistory,
     loadSaveFile,
     selectManualSaveFile,
     loadingPrices,
     refreshPrices,
+    refreshInterval,
+    setRefreshInterval,
     steamRateLimited,
     steamLoggedIn,
     connectSteam,
     disconnectSteam,
     stopFetching,
+    clearPortfolioHistory,
+    wishlist,
+    inAppNotifications,
+    prices,
+    addToWishlist,
+    removeFromWishlist,
+    dismissNotification,
+    newItemAlertThreshold,
+    setNewItemAlertThreshold,
   } = useSaveData();
 
   const {
@@ -94,7 +112,7 @@ export default function App() {
       return <LoadingState />;
     }
 
-    if (!parsedSave && activeTab !== "market") {
+    if (!parsedSave && activeTab !== "market" && activeTab !== "wishlist") {
       return <NoSaveState onRetry={loadSaveFile} />;
     }
 
@@ -110,11 +128,24 @@ export default function App() {
       );
     }
 
+    if (activeTab === "wishlist") {
+      return (
+        <WishlistPanel
+          wishlist={wishlist}
+          prices={prices}
+          onRemove={removeFromWishlist}
+          onClickItem={setSelectedDetailItem}
+        />
+      );
+    }
+
     if (activeTab === "analytics" && analyticsData && parsedSave) {
       return (
         <AnalyticsPanel
           analyticsData={analyticsData}
           parsedSave={parsedSave}
+          portfolioHistory={portfolioHistory}
+          onClearPortfolio={clearPortfolioHistory}
         />
       );
     }
@@ -145,17 +176,12 @@ export default function App() {
     <div className="dashboard-container">
       <Header
         statusMessage={statusMessage}
-        isLive={isLive}
-        onReload={loadSaveFile}
-        onSelectFile={selectManualSaveFile}
         loadingPrices={loadingPrices}
         onRefreshPrices={refreshPrices}
         onStopPrices={stopFetching}
         steamRateLimited={steamRateLimited}
         totalStashValue={parsedSave?.totalStashValue}
-        steamLoggedIn={steamLoggedIn}
-        onConnectSteam={connectSteam}
-        onDisconnectSteam={disconnectSteam}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
 
       <TabNavigation
@@ -167,9 +193,20 @@ export default function App() {
         setGradeFilter={setGradeFilter}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        hideNoPriceItems={hideNoPriceItems}
+        setHideNoPriceItems={setHideNoPriceItems}
       />
 
-      <main style={{ flexGrow: 1 }} className="fade-in">
+      <main
+        style={{
+          flexGrow: 1,
+          minHeight: 0,
+          overflow: (activeTab === "market" || activeTab === "all" || activeTab === "stash" || activeTab === "inventory" || activeTab === "wishlist") ? "hidden" : "visible",
+          display: "flex",
+          flexDirection: "column",
+        }}
+        className="fade-in"
+      >
         {renderMainContent()}
       </main>
 
@@ -182,9 +219,32 @@ export default function App() {
       <ItemDetailModal
         item={selectedDetailItem}
         onClose={() => setSelectedDetailItem(null)}
+        wishlist={wishlist}
+        onAddToWishlist={addToWishlist}
+        onRemoveFromWishlist={removeFromWishlist}
+      />
+
+      <NotificationStack
+        notifications={inAppNotifications}
+        onDismiss={dismissNotification}
       />
 
       <UpdateBanner />
+
+      <SettingsModal
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        isLive={isLive}
+        steamLoggedIn={steamLoggedIn}
+        onConnectSteam={connectSteam}
+        onDisconnectSteam={disconnectSteam}
+        onSelectFile={selectManualSaveFile}
+        onReload={loadSaveFile}
+        refreshInterval={refreshInterval}
+        onSetRefreshInterval={setRefreshInterval}
+        newItemAlertThreshold={newItemAlertThreshold}
+        onSetNewItemAlertThreshold={setNewItemAlertThreshold}
+      />
     </div>
   );
 }

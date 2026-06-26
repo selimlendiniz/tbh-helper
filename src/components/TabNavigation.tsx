@@ -12,6 +12,8 @@ interface TabNavigationProps {
   setGradeFilter: (g: string) => void;
   sortBy: SortType;
   setSortBy: (s: SortType) => void;
+  hideNoPriceItems: boolean;
+  setHideNoPriceItems: (v: boolean) => void;
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = ({
@@ -22,7 +24,9 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   gradeFilter,
   setGradeFilter,
   sortBy,
-  setSortBy
+  setSortBy,
+  hideNoPriceItems,
+  setHideNoPriceItems,
 }) => {
   return (
     <div className="controls-row fade-in">
@@ -44,6 +48,9 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
         </button>
         <button className={`tab-btn ${activeTab === "analytics" ? "active" : ""}`} onClick={() => setActiveTab("analytics")}>
           Analytics
+        </button>
+        <button className={`tab-btn ${activeTab === "wishlist" ? "active" : ""}`} onClick={() => setActiveTab("wishlist")}>
+          Wishlist ⭐
         </button>
       </div>
 
@@ -75,6 +82,34 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
             <option value="name">Sort by Name</option>
             <option value="grade">Sort by Rarity</option>
           </select>
+
+          {activeTab === "market" && (
+            <button
+              className={`tab-btn ${hideNoPriceItems ? "active" : ""}`}
+              onClick={() => setHideNoPriceItems(!hideNoPriceItems)}
+              title="Toggle visibility of items without a price"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "12px",
+                padding: "4px 10px",
+                borderRadius: "6px",
+                border: hideNoPriceItems
+                  ? "1px solid rgba(255, 128, 0, 0.5)"
+                  : "1px solid var(--border-color)",
+                background: hideNoPriceItems
+                  ? "rgba(255, 128, 0, 0.1)"
+                  : "rgba(255,255,255,0.02)",
+                color: hideNoPriceItems ? "#ff8000" : "var(--text-muted)",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {hideNoPriceItems ? "👁 Show All" : "🚫 Hide No-Price"}
+            </button>
+          )}
         </div>
       )}
     </div>

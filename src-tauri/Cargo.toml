@@ -25,3 +25,4 @@ cbc = { version = "0.1", features = ["alloc"] }
 flate2 = "1.0"
 rfd = "0.14"
 ureq = "2.9"
+tauri-plugin-notification = "2"
