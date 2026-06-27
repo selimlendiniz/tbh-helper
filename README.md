@@ -49,14 +49,21 @@ Without a Steam login, the Steam Market blocks price requests after a short time
 - Once logged in, the app will capture session cookies to raise your rate limit, and then close the window.
 - **Your credentials are never stored or shared.** All requests are read-only and local to your machine.
 
-### 3. Setup Telegram Notifications (100% Free)
+### 3. High-Value Item Alerts
+Get native desktop and Telegram notifications when you obtain a rare or valuable item:
+- Open Settings in TBH Helper.
+- Under **Min Price Threshold ($)**, set the minimum value (e.g., `5` or `10`) for items you want to get alerts for.
+- Set it to `0` to disable these alerts.
+- Whenever the game updates your save file with a new item exceeding this price, an alert will be triggered.
+
+### 4. Setup Telegram Notifications (100% Free)
 Get notified instantly on your phone when you get high-value drops:
 1. Message `@BotFather` on Telegram and send `/newbot` to create your own bot and get a **Bot Token**.
 2. Message `@GetIDBot` to get your own **Chat ID**.
 3. Search for your bot on Telegram, click **Start**.
 4. Open Settings in TBH Helper, check **Enable Telegram Alerts**, enter your token and chat ID, and click **Test Connection**.
 
-### 4. Close to Tray Settings
+### 5. Close to Tray Settings
 - By default, closing the app window hides it to the **System Tray** (bottom-right taskbar area) so it can continue watching prices and notifying you.
 - To open it again, **left-click the tray icon** or right-click it and choose **Show App**.
 - To shut down the app completely, right-click the tray icon and select **Quit**.

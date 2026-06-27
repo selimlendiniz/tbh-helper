@@ -47,14 +47,21 @@ Steam girişi yapmadığınızda, Steam Market isteklerinizi kısa süre sonra e
 - Giriş başarılı olduğunda uygulama çerezleri kaydeder ve pencereyi otomatik kapatır.
 - **Şifreniz veya bilgileriniz asla kaydedilmez ya da paylaşılmaz.** Tüm istekler sadece yerel bilgisayarınızdan yapılır.
 
-### 3. Telegram Bildirim Kurulumu (Tamamen Ücretsiz)
+### 3. Yüksek Değerli Eşya Uyarıları (High-Value Item Alerts)
+Nadir veya değerli bir eşya elde ettiğinizde yerel masaüstü ve Telegram bildirimleri alın:
+- TBH Helper'da Ayarlar penceresini açın.
+- **Min Price Threshold ($)** (Minimum Fiyat Eşiği) kısmına uyarılmak istediğiniz eşyalar için minimum değeri girin (örneğin `5` veya `10`).
+- Bu uyarıları tamamen devre dışı bırakmak için değeri `0` yapabilirsiniz.
+- Oyun save dosyanızı güncelleyip bu değerden daha yüksek fiyatlı yeni bir eşya algıladığında bir uyarı tetiklenir.
+
+### 4. Telegram Bildirim Kurulumu (Tamamen Ücretsiz)
 Değerli itemler düştüğünde telefonunuza anında bildirim gelmesini sağlayın:
 1. Telegram'da `@BotFather` kullanıcısına mesaj atıp `/newbot` yazarak kendi botunuzu oluşturun ve size verilen **Bot Token** değerini alın.
 2. Kendi chat ID'nizi öğrenmek için Telegram'da `@GetIDBot` kullanıcısına mesaj gönderin ve **Chat ID** değerinizi alın.
 3. Telegram'da kendi botunuzun adını aratın ve bota girip **Başlat (Start)** butonuna basın.
 4. TBH Helper Ayarlar penceresine girip **Enable Telegram Alerts (Telegram Bildirimlerini Etkinleştir)** kutusunu işaretleyin, token ve chat ID alanlarını doldurup **Test Connection** butonuna tıklayın.
 
-### 4. Kapanışta Sistem Tepsisinde Çalışma (Tray) Ayarı
+### 5. Kapanışta Sistem Tepsisinde Çalışma (Tray) Ayarı
 - Varsayılan olarak, uygulamanın penceresini kapattığınızda uygulama tamamen kapanmaz. Sağ alttaki **Sistem Tepsisi'ne (Tray)** küçülür ve arka planda fiyatları izlemeye, bildirim göndermeye devam eder.
 - Uygulamayı tekrar açmak için **tray ikonuna sol tıklayın** veya sağ tıklayıp **Show App** deyin.
 - Uygulamayı tamamen kapatmak için tray ikonuna sağ tıklayıp **Quit** seçeneğini seçin.
