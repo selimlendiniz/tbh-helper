@@ -4,157 +4,78 @@
 
 ---
 
-## Özellikler
+## ⬇️ İndirme & Kurulum
 
-- 🗂️ **Envanter Görüntüleyici** — Envanter, Depo, Pazar listeleri ve Kuşanılmış eşyalarınızı görün
-- 💰 **Steam Pazarı Fiyatları** — Steam Community Market'ten anlık fiyatları otomatik çeker
-- 📊 **Analitik Paneli** — Nadir seviyesine göre varlık dağılımı, en değerli itemler ve portföy özeti
-- 🛒 **Pazar Gezgini** — Tüm satılabilir itemleri ve güncel piyasa değerlerini arayın
-- 🔴 **Gerçek Zamanlı Senkronizasyon** — Save dosyanızdaki değişiklikleri izler ve görünümü anında günceller
-- 🔐 **Steam Hesap Entegrasyonu** — Uygulama içinden Steam'e giriş yaparak hız sınırı sorunlarını aşın
-- 🧮 **Toplam Envanter Değeri** — Üst navigasyon çubuğunda tek bakışta görüntülenir
-- 🔍 **Arama ve Filtreleme** — Nadirlik derecesine göre filtrele, isme göre ara, değer / isim / derece bazlı sırala
+**Herhangi bir kodlama veya kurulum bilgisi gerektirmez.** Sadece yükleyiciyi indirin ve çalıştırın.
 
----
+👉 **[En Son Sürümü İndir](https://github.com/selimlendiniz/tbh-helper/releases/latest)**
 
-## Teknoloji Altyapısı
+1. En son sürüm sayfasındaki Assets (Varlıklar) bölümünden `TBH_Helper_Update_Setup.exe` veya `TBH Helper_X.Y.Z_x64-setup.exe` dosyasını indirin.
+2. Yükleyiciyi çalıştırın.
+3. Başlat Menüsü veya Masaüstü kısayolundan **TBH Helper**'ı başlatın.
 
-| Katman | Teknoloji |
-|---|---|
-| Masaüstü kabuğu | [Tauri](https://tauri.app/) (Rust) |
-| Arayüz | React + TypeScript |
-| Paketleyici | Vite |
-| Stil | Vanilla CSS |
-| Yazı Tipi | Outfit (Google Fonts) |
+> ⚠️ **Sadece Windows:** Bu uygulama, oyunun yerel save dosyasını okuduğu için yalnızca Windows işletim sisteminde çalışır.
 
 ---
 
-## Gereksinimler
+## ✨ Özellikler
 
-- **Windows** (save dosyası yolu Windows'a özgüdür)
-- [Node.js](https://nodejs.org/) v18+
-- [Rust](https://www.rust-lang.org/tools/install) (kararlı araç zinciri)
-- [Tauri önkoşulları](https://tauri.app/v1/guides/getting-started/prerequisites)
-
----
-
-## Başlarken
-
-### 1. Repoyu klonlayın
-
-```bash
-git clone https://github.com/yourname/tbhhelper.git
-cd tbhhelper
-```
-
-### 2. Bağımlılıkları yükleyin
-
-```bash
-npm install
-```
-
-### 3. Geliştirme modunda çalıştırın
-
-```bash
-npm run tauri dev
-```
-
-### 4. Üretim için derleyin
-
-```bash
-npm run tauri build
-```
+- 🗂️ **Envanter Görüntüleyici** — Envanter, Depo (Stash), Pazar listeleri ve Kuşanılmış (Equipped) eşyalarınızı görün.
+- 💰 **Steam Pazarı Fiyatları** — Steam Community Market'ten güncel fiyatları otomatik olarak çeker.
+- 📊 **Analitik Paneli** — Eşyalarınızın nadirlik dağılımını, en değerli itemlerinizi ve zaman içindeki portföy değerinizi inceleyin.
+- 🛒 **Pazar Gezgini** — Oyundaki tüm satılabilir itemleri ve güncel pazar fiyatlarını arayın.
+- 🔴 **Gerçek Zamanlı Senkronizasyon** — Oyunu oynarken save dosyanızı otomatik izler ve arayüzü anlık günceller.
+- 🔐 **Steam Hesap Entegrasyonu** — Hız sınırı (429 Too Many Requests) sorunlarını aşmak için uygulama içinden güvenle Steam girişi yapın.
+- 📬 **Telegram Bildirimleri** — Değerli eşya düşürdüğünüzde veya fiyat değişimlerinde anlık mobil bildirimleri doğrudan Telegram uygulamanızdan alın.
+- ⚙️ **Arka Planda Çalışma (Sistem Tepsisi / Tray)** — Pencereyi kapatsanız bile uygulamanın arka planda çalışmaya devam etmesini ve bildirim göndermesini sağlayın.
 
 ---
 
-## Nasıl Çalışır?
+## 🚀 Nasıl Kullanılır ve Yapılandırılır?
 
-### Save Dosyası
+### 1. Kayıt Dosyası Senkronizasyonu
+Uygulama, oyunun save dosyasını varsayılan olarak şu konumdan otomatik bulur:
+`%USERPROFILE%\AppData\LocalLow\TesseractStudio\TaskbarHero\SaveFile_Live.es3`
 
-Uygulama, oyunun şifreli save dosyasını otomatik olarak şu konumdan okur:
+- Farklı bir save kullanmak veya yedek yüklemek isterseniz, Ayarlar'dan **Select Save File (Kayıt Dosyası Seç)** butonunu kullanabilirsiniz.
+- Anlık olarak save dosyasını yeniden yüklemek için **Manual Reload (Manuel Yeniden Yükle)** butonuna basabilirsiniz.
 
-```
-%USERPROFILE%\AppData\LocalLow\TesseractStudio\TaskbarHero\SaveFile_Live.es3
-```
+### 2. Steam Bağlantısı (Önemle Tavsiye Edilir)
+Steam girişi yapmadığınızda, Steam Market isteklerinizi kısa süre sonra engeller (`429 Too Many Requests` hatası).
+- Sağ üstteki veya Ayarlar'daki **Connect Steam (Steam'e Bağlan)** butonuna tıklayın.
+- Güvenli Steam giriş penceresinde normal şekilde giriş yapın.
+- Giriş başarılı olduğunda uygulama çerezleri kaydeder ve pencereyi otomatik kapatır.
+- **Şifreniz veya bilgileriniz asla kaydedilmez ya da paylaşılmaz.** Tüm istekler sadece yerel bilgisayarınızdan yapılır.
 
-Dosya; AES-128-CBC şifrelemesi ve PBKDF2-SHA1 anahtar türetimi kullanılarak Rust backend tarafında çözülür, ardından karakter verileri, envanter, depo ve kuşanılmış eşyalar ayrıştırılır.
+### 3. Telegram Bildirim Kurulumu (Tamamen Ücretsiz)
+Değerli itemler düştüğünde telefonunuza anında bildirim gelmesini sağlayın:
+1. Telegram'da `@BotFather` kullanıcısına mesaj atıp `/newbot` yazarak kendi botunuzu oluşturun ve size verilen **Bot Token** değerini alın.
+2. Kendi chat ID'nizi öğrenmek için Telegram'da `@GetIDBot` kullanıcısına mesaj gönderin ve **Chat ID** değerinizi alın.
+3. Telegram'da kendi botunuzun adını aratın ve bota girip **Başlat (Start)** butonuna basın.
+4. TBH Helper Ayarlar penceresine girip **Enable Telegram Alerts (Telegram Bildirimlerini Etkinleştir)** kutusunu işaretleyin, token ve chat ID alanlarını doldurup **Test Connection** butonuna tıklayın.
 
-"Kayıt Dosyası Seç" butonu ile **özel bir save dosyası** da yükleyebilirsiniz.
-
-### Fiyat Çekme
-
-Fiyatlar, oyunun Steam uygulama ID'si üzerinden [Steam Community Market](https://steamcommunity.com/market/)'ten çekilir.
-
-İki mod mevcuttur:
-
-| Mod | Nasıl Çalışır |
-|---|---|
-| **Misafir** (giriş yapılmamış) | Rust backend üzerinden doğrudan HTTP isteği. Steam'in 429 hız sınırlarına tabi. |
-| **Steam Bağlı** | Tauri webview penceresi açar, Steam'e giriş yaparsınız, ardından oturum çerezlerinizle pazar sayfaları arasında gezinir — çok daha güvenilir. |
-
-Çekilen fiyatlar `localStorage`'da önbelleğe alınır ve 1 saat sonra sona erer.
-
-### Item Veritabanı
-
-Tüm item meta verileri (isimler, dereceler, tipler, seviyeler, ikonlar) `tbh_data.json` dosyasında yerel olarak paketlenmiştir. Bu dosya oyunun assetlerinden çıkarılmıştır. Oyun yeni itemler içeren bir güncelleme alırsa bu dosyanın yeniden oluşturulması gerekebilir.
+### 4. Kapanışta Sistem Tepsisinde Çalışma (Tray) Ayarı
+- Varsayılan olarak, uygulamanın penceresini kapattığınızda uygulama tamamen kapanmaz. Sağ alttaki **Sistem Tepsisi'ne (Tray)** küçülür ve arka planda fiyatları izlemeye, bildirim göndermeye devam eder.
+- Uygulamayı tekrar açmak için **tray ikonuna sol tıklayın** veya sağ tıklayıp **Show App** deyin.
+- Uygulamayı tamamen kapatmak için tray ikonuna sağ tıklayıp **Quit** seçeneğini seçin.
+- Pencere kapatıldığında uygulamanın doğrudan çıkış yapmasını istiyorsanız, **Settings** (Ayarlar) panelinden **Close to Tray** seçeneğindeki işareti kaldırın.
 
 ---
 
-## Proje Yapısı
+## 🔒 Gizlilik ve Güvenlik
 
-```
-tbhhelper/
-├── src/
-│   ├── components/              # React UI bileşenleri
-│   │   ├── Header.tsx           # Üst navigasyon çubuğu
-│   │   ├── ItemsGrid.tsx        # Item kart ızgarası
-│   │   ├── ItemDetailModal.tsx  # Item detay popup'ı
-│   │   ├── MarketExplorer.tsx   # Pazar arama görünümü
-│   │   ├── AnalyticsPanel.tsx   # Portföy analitiği
-│   │   └── EquippedPanel.tsx    # Kahraman ekipman görünümü
-│   ├── hooks/
-│   │   └── useSaveData.ts       # Ana durum ve veri mantığı
-│   ├── services/price/
-│   │   └── SteamMarketProvider.ts  # Steam Pazarı fiyat çekici
-│   ├── utils/                   # Yardımcılar (fetch, stat biçimlendirme vb.)
-│   ├── types/                   # TypeScript arayüzleri
-│   ├── constants/               # Derece haritaları, sınıf isimleri, renkler
-│   └── tbh_data.json            # Paketlenmiş item veritabanı (~1.1 MB)
-├── src-tauri/
-│   ├── src/lib.rs               # Rust backend (dosya şifre çözme, fetch, Steam penceresi)
-│   └── capabilities/            # Tauri izin yapılandırması
-└── index.html
-```
+- **Yerel İşlem:** Save dosyanız ve Steam oturum çerezleriniz asla cihazınızın dışına çıkmaz.
+- **İzleme Yoktur:** Herhangi bir analitik kod, reklam yazılımı veya üçüncü taraf sunucu bağlantısı bulunmamaktadır.
+- **Güvenli Giriş:** Steam girişi doğrudan resmi Steam sayfası üzerinden yapılır. Helper uygulaması bu oturumu yalnızca yerel market isteklerinde rate-limit aşmak için kullanır.
 
 ---
 
-## Steam Entegrasyonu
+## Sorumluluk Reddi (Disclaimer)
 
-1. Üst çubukta **Connect Steam** butonuna tıklayın
-2. Steam giriş penceresi açılır — normalde yaptığınız gibi giriş yapın
-3. Giriş yapıldıktan sonra uygulama oturum çerezlerinizi algılar ve pencereyi gizler
-4. Bundan sonraki tüm fiyat çekme işlemleri Steam oturumunuzu kullanır — artık 429 hatası yok
-
-Bağlantıyı kesmek için **Disconnect Steam** butonuna tıklayın.
-
----
-
-## Dış Bağımlılıklar
-
-| Servis | Amaç | Ne Zaman |
-|---|---|---|
-| `steamcommunity.com/market/` | Canlı item fiyatları | Fiyat yenilemede |
-| `steamcommunity.com/login/` | Steam giriş sayfası (webview) | Steam'e bağlanırken |
-| `fonts.googleapis.com` | Outfit yazı tipi | Uygulama başlangıcında |
+Bu uygulama **resmi olmayan** bir üçüncü taraf araçtır. TesseractStudio veya Valve Corporation ile hiçbir bağlantısı yoktur ve bunlar tarafından onaylanmamıştır. Kullanım riski size aittir.
 
 ---
 
 ## Lisans
 
-MIT — Özgürce kullanabilir, değiştirebilir ve dağıtabilirsiniz.
-
----
-
-## Sorumluluk Reddi
-
-Bu uygulama **resmi olmayan** bir üçüncü taraf araçtır. TesseractStudio veya Valve Corporation ile hiçbir bağlantısı yoktur ve bunlar tarafından onaylanmamıştır. Kullanım riski size aittir.
+MIT Lisansı.
