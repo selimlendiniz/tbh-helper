@@ -22,6 +22,8 @@ interface SettingsModalProps {
   onSetTelegramBotToken: (val: string) => void;
   onSetTelegramChatId: (val: string) => void;
   onSendTelegramTest: (msg: string) => Promise<void>;
+  closeToTray: boolean;
+  onSetCloseToTray: (val: boolean) => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -45,6 +47,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onSetTelegramBotToken,
   onSetTelegramChatId,
   onSendTelegramTest,
+  closeToTray,
+  onSetCloseToTray,
 }) => {
   const [appVersion, setAppVersion] = useState<string>("...");
   const [downloading, setDownloading] = useState(false);
@@ -319,6 +323,30 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <button className="settings-btn btn-secondary" onClick={() => { onSelectFile(); onClose(); }}>
                     &#128194; Select Save File
                   </button>
+                </div>
+              </div>
+            </section>
+
+            <div className="settings-divider" />
+
+            {/* Application Settings */}
+            <section className="settings-section">
+              <h3 className="settings-section-title">Application Settings</h3>
+              <p className="settings-section-desc">
+                Configure how the application behaves when closing the window.
+              </p>
+              <div className="settings-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div className="settings-row-label">
+                  <span className="settings-row-name">Close to Tray</span>
+                  <span className="settings-row-hint">Keep running in the system tray when closed</span>
+                </div>
+                <div className="settings-row-actions">
+                  <input
+                    type="checkbox"
+                    checked={closeToTray}
+                    onChange={(e) => onSetCloseToTray(e.target.checked)}
+                    style={{ width: "18px", height: "18px", cursor: "pointer", accentColor: "#10b981" }}
+                  />
                 </div>
               </div>
             </section>

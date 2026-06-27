@@ -106,6 +106,8 @@ export default function App() {
     setTelegramBotToken,
     setTelegramChatId,
     sendTelegramMessage,
+    closeToTray,
+    setCloseToTray,
   } = useSaveData();
 
   const {
@@ -261,6 +263,8 @@ export default function App() {
         onSetTelegramBotToken={setTelegramBotToken}
         onSetTelegramChatId={setTelegramChatId}
         onSendTelegramTest={sendTelegramMessage}
+        closeToTray={closeToTray}
+        onSetCloseToTray={setCloseToTray}
       />
     </div>
   );

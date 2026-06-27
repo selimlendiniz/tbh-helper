@@ -9,7 +9,11 @@ use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::thread;
 use std::time::{Duration, SystemTime};
-use tauri::{AppHandle, Emitter};
+use tauri::{
+    menu::{MenuBuilder, MenuItemBuilder},
+    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
+    AppHandle, Emitter, Manager,
+};
 
 type Aes128CbcDec = cbc::Decryptor<aes::Aes128>;
 
@@ -17,6 +21,12 @@ type Aes128CbcDec = cbc::Decryptor<aes::Aes128>;
 static WATCHER_RUNNING: AtomicBool = AtomicBool::new(false);
 static CUSTOM_SAVE_PATH: std::sync::Mutex<Option<PathBuf>> = std::sync::Mutex::new(None);
 static STEAM_COOKIES: std::sync::Mutex<Option<String>> = std::sync::Mutex::new(None);
+static CLOSE_TO_TRAY: AtomicBool = AtomicBool::new(true);
+
+#[tauri::command]
+fn set_close_to_tray(enabled: bool) {
+    CLOSE_TO_TRAY.store(enabled, Ordering::Relaxed);
+}
 
 fn get_save_path() -> Result<PathBuf, String> {
     if let Ok(guard) = CUSTOM_SAVE_PATH.lock() {
@@ -380,8 +390,63 @@ pub fn run() {
             navigate_steam_window,
             show_steam_window,
             extract_steam_data,
-            install_update
+            install_update,
+            set_close_to_tray
         ])
+        .setup(|app| {
+            // Build system tray menu items
+            let show_item = MenuItemBuilder::new("Show App").id("show").build(app)?;
+            let quit_item = MenuItemBuilder::new("Quit").id("quit").build(app)?;
+            let menu = MenuBuilder::new(app)
+                .item(&show_item)
+                .item(&quit_item)
+                .build()?;
+
+            let mut tray_builder = TrayIconBuilder::new().menu(&menu);
+            if let Some(icon) = app.default_window_icon() {
+                tray_builder = tray_builder.icon(icon.clone());
+            }
+            let _tray = tray_builder
+                .on_menu_event(|app, event| {
+                    match event.id().0.as_str() {
+                        "show" => {
+                            if let Some(window) = app.get_webview_window("main") {
+                                let _ = window.show();
+                                let _ = window.set_focus();
+                            }
+                        }
+                        "quit" => {
+                            app.exit(0);
+                        }
+                        _ => {}
+                    }
+                })
+                .on_tray_icon_event(|tray, event| match event {
+                    TrayIconEvent::Click {
+                        button: MouseButton::Left,
+                        button_state: MouseButtonState::Up,
+                        ..
+                    } => {
+                        let app = tray.app_handle();
+                        if let Some(window) = app.get_webview_window("main") {
+                            let _ = window.show();
+                            let _ = window.set_focus();
+                        }
+                    }
+                    _ => {}
+                })
+                .build(app)?;
+
+            Ok(())
+        })
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                if CLOSE_TO_TRAY.load(Ordering::Relaxed) {
+                    api.prevent_close();
+                    let _ = window.hide();
+                }
+            }
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

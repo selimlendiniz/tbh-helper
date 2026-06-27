@@ -87,6 +87,18 @@ export function useSaveData() {
     try { localStorage.setItem("tbh_telegram_chat_id", val); } catch {}
   };
 
+  const [closeToTray, setCloseToTrayState] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem("tbh_close_to_tray");
+      return saved === null ? true : saved === "true";
+    } catch { return true; }
+  });
+
+  const setCloseToTray = (val: boolean) => {
+    setCloseToTrayState(val);
+    try { localStorage.setItem("tbh_close_to_tray", String(val)); } catch {}
+  };
+
   const sendTelegramMessage = async (message: string) => {
     if (!telegramBotToken || !telegramChatId) return;
     try {
@@ -390,6 +402,18 @@ export function useSaveData() {
     };
     initNotifications();
   }, []);
+
+  // Sync closeToTray setting to Rust backend on load/change
+  useEffect(() => {
+    const syncCloseToTray = async () => {
+      try {
+        await invoke("set_close_to_tray", { enabled: closeToTray });
+      } catch (err) {
+        console.error("Failed to sync closeToTray to backend:", err);
+      }
+    };
+    syncCloseToTray();
+  }, [closeToTray]);
 
   const addToWishlist = (item: WishlistItem) => {
     setWishlist((prev) => {
@@ -1130,6 +1154,7 @@ export function useSaveData() {
     telegramEnabled,
     telegramBotToken,
     telegramChatId,
+    closeToTray,
     
     // Data
     parsedSave,
@@ -1159,5 +1184,6 @@ export function useSaveData() {
     setTelegramBotToken,
     setTelegramChatId,
     sendTelegramMessage,
+    setCloseToTray,
   };
 }
