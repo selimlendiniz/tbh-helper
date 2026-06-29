@@ -1,6 +1,7 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { TbhItem, MarketItem } from "../types";
+import { isUnobtainableItem } from "../utils";
 import "../styles/market.css";
 
 const CARD_MIN_WIDTH = 300; // px — matches minmax(280px, 1fr) + gap
@@ -22,14 +23,21 @@ export const MarketExplorer: React.FC<MarketExplorerProps> = ({
   onClick,
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = React.useState<number | null>(null);
 
-  // Measure actual columns dynamically
-  const getColCount = useCallback(() => {
-    const w = parentRef.current?.clientWidth ?? 900;
-    return Math.max(1, Math.floor(w / CARD_MIN_WIDTH));
+  React.useEffect(() => {
+    if (!parentRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        setWidth(entries[0].contentRect.width);
+      }
+    });
+    observer.observe(parentRef.current);
+    return () => observer.disconnect();
   }, []);
 
-  const colCount = getColCount();
+  const currentWidth = width ?? parentRef.current?.clientWidth ?? 900;
+  const colCount = Math.max(1, Math.floor(currentWidth / CARD_MIN_WIDTH));
   const rowCount = Math.ceil(items.length / colCount);
 
   const virtualizer = useVirtualizer({
@@ -67,7 +75,6 @@ export const MarketExplorer: React.FC<MarketExplorerProps> = ({
             <div
               key={virtualRow.key}
               data-index={virtualRow.index}
-              ref={virtualizer.measureElement}
               style={{
                 position: "absolute",
                 top: 0,
@@ -106,6 +113,11 @@ export const MarketExplorer: React.FC<MarketExplorerProps> = ({
                     <span className="item-name" title={item.name}>{item.name}</span>
                     <div className="item-meta">
                       <span className="grade-tag">{item.grade}</span>
+                      {isUnobtainableItem(item.lookupKey) && (
+                        <span style={{ backgroundColor: "#ef4444", color: "#fff", padding: "1px 4px", borderRadius: "3px", fontSize: "9px", fontWeight: "bold", marginLeft: "4px" }}>
+                          UNOBTAINABLE
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="item-pricing">

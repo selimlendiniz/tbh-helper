@@ -60,7 +60,7 @@ export interface AnalyticsData {
   topHoldings: TbhItem[];
 }
 
-export type TabType = "all" | "stash" | "inventory" | "equipped" | "market" | "analytics" | "wishlist";
+export type TabType = "all" | "stash" | "inventory" | "equipped" | "market" | "analytics" | "wishlist" | "materials";
 export type SortType = "value" | "name" | "grade";
 
 export interface PortfolioPoint {

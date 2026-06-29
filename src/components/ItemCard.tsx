@@ -1,5 +1,6 @@
 import React from "react";
 import { TbhItem } from "../types";
+import { isUnobtainableItem } from "../utils";
 import "../styles/item-card.css";
 
 interface ItemCardProps {
@@ -46,6 +47,11 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         <span className="item-name" title={item.name}>{item.name}</span>
         <div className="item-meta">
           <span className="grade-tag">{item.grade}</span>
+          {isUnobtainableItem(item.lookupKey) && (
+            <span style={{ backgroundColor: "#ef4444", color: "#fff", padding: "1px 4px", borderRadius: "3px", fontSize: "9px", fontWeight: "bold", marginLeft: "4px" }}>
+              UNOBTAINABLE
+            </span>
+          )}
           {item.level && <span className="level-tag">LVL {item.level}</span>}
           {item.isChaotic && <span style={{ color: "#ec4899", fontWeight: "bold", fontSize: "9px" }}>CHAOTIC</span>}
           {item.location && <span className="location-tag">{item.location}</span>}

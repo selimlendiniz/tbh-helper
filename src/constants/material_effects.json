@@ -1,0 +1,4247 @@
+[
+  {
+    "id": "110001",
+    "name": "Minor Ruby",
+    "slug": "minor-ruby",
+    "icon": "/game/items/materials/Item_110001.png",
+    "grade": "Common",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Fire Resistance",
+            "value": "+5~10%",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+1~2",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "110002",
+    "name": "Minor Sapphire",
+    "slug": "minor-sapphire",
+    "icon": "/game/items/materials/Item_110002.png",
+    "grade": "Common",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+25~50",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+10~15%",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "110003",
+    "name": "Minor Topaz",
+    "slug": "minor-topaz",
+    "icon": "/game/items/materials/Item_110003.png",
+    "grade": "Common",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+10~15%",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+8~10%",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "110004",
+    "name": "Minor Emerald",
+    "slug": "minor-emerald",
+    "icon": "/game/items/materials/Item_110004.png",
+    "grade": "Common",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+5~6%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Damage Absorption",
+            "value": "+10",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+10~15%",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "110005",
+    "name": "Minor Amethyst",
+    "slug": "minor-amethyst",
+    "icon": "/game/items/materials/Item_110005.png",
+    "grade": "Common",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Physical Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+10~30",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+1~2.5%",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "120001",
+    "name": "Goblin Hide",
+    "slug": "goblin-hide",
+    "icon": "/game/items/materials/Item_120001.png",
+    "grade": "Common",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+5~10%",
+            "tier": "T1"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+5~10%",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+4~5%",
+            "tier": "T1"
+          },
+          {
+            "name": "Max HP",
+            "value": "+10~30",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "120002",
+    "name": "Skeleton Bone",
+    "slug": "skeleton-bone",
+    "icon": "/game/items/materials/Item_120002.png",
+    "grade": "Common",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+15~20%",
+            "tier": "T2"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+20~30%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+25~50",
+            "tier": "T1"
+          },
+          {
+            "name": "Armor",
+            "value": "+10~15%",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+1~2",
+            "tier": "T1"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+4~5%",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "120003",
+    "name": "Slime Jelly",
+    "slug": "slime-jelly",
+    "icon": "/game/items/materials/Item_120003.png",
+    "grade": "Common",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+5~6%",
+            "tier": "T2"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+2~3",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Damage Absorption",
+            "value": "+10",
+            "tier": "T1"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+2.5~3.5%",
+            "tier": "T1"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+10~30",
+            "tier": "T1"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+10~15%",
+            "tier": "T1"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "130001",
+    "name": "Scroll of Common Inscription",
+    "slug": "scroll-of-common-inscription",
+    "icon": "/game/items/materials/Item_130001.png",
+    "grade": "Common",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+1~6",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+5~20%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Armor",
+            "value": "+25~150",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Armor",
+            "value": "+10~25%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Max HP",
+            "value": "+10~90",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+4~7%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+8~14%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+7~10%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+10~40%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+10~40%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+10~40%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+10~40%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+5~20%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+5~20%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+5~20%",
+            "tier": "T1-3"
+          },
+          {
+            "name": "Add Hp Per Kill",
+            "value": "+2~8",
+            "tier": "T1-3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "111001",
+    "name": "Obsidian Shard",
+    "slug": "obsidian-shard",
+    "icon": "/game/items/materials/Item_111001.png",
+    "grade": "Uncommon",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+3~6",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+3.5~4.5%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+10~15%",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "111002",
+    "name": "Coral Piece",
+    "slug": "coral-piece",
+    "icon": "/game/items/materials/Item_111002.png",
+    "grade": "Uncommon",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+1~2",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+150~200",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "HP Leech",
+            "value": "+1.5~2.5%",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "111003",
+    "name": "Jade Stone",
+    "slug": "jade-stone",
+    "icon": "/game/items/materials/Item_111003.png",
+    "grade": "Uncommon",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+20~25%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Dodge Chance",
+            "value": "+3.5~4.5%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+5~6%",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "111004",
+    "name": "Amber Gem",
+    "slug": "amber-gem",
+    "icon": "/game/items/materials/Item_111004.png",
+    "grade": "Uncommon",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+20~25%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+8~11%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+8~9%",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "121001",
+    "name": "Wolf Fang",
+    "slug": "wolf-fang",
+    "icon": "/game/items/materials/Item_121001.png",
+    "grade": "Uncommon",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+9~10%",
+            "tier": "T3"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+20~25%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+10~15%",
+            "tier": "T2"
+          },
+          {
+            "name": "Armor",
+            "value": "+15~20%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+2~4",
+            "tier": "T2"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+2~3",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "121002",
+    "name": "Spider Silk",
+    "slug": "spider-silk",
+    "icon": "/game/items/materials/Item_121002.png",
+    "grade": "Uncommon",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+9~10%",
+            "tier": "T3"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+10~15%",
+            "tier": "T2"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+2.5~4%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+2.5~4%",
+            "tier": "T2"
+          },
+          {
+            "name": "Max HP",
+            "value": "+30~60",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "121003",
+    "name": "Poisonous Herb",
+    "slug": "poisonous-herb",
+    "icon": "/game/items/materials/Item_121003.png",
+    "grade": "Uncommon",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Leech",
+            "value": "+2~3%",
+            "tier": "T3"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+50~100",
+            "tier": "T2"
+          },
+          {
+            "name": "Damage Absorption",
+            "value": "+10~14",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+2~3",
+            "tier": "T2"
+          },
+          {
+            "name": "Movement Speed",
+            "value": "+15~20%",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "121004",
+    "name": "Healing Herb",
+    "slug": "healing-herb",
+    "icon": "/game/items/materials/Item_121004.png",
+    "grade": "Uncommon",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Dodge Chance",
+            "value": "+3.5~4.5%",
+            "tier": "T2"
+          },
+          {
+            "name": "Max HP",
+            "value": "+8~11%",
+            "tier": "T2"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+15~20%",
+            "tier": "T2"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+2~3",
+            "tier": "T2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "131001",
+    "name": "Scroll of Uncommon Inscription",
+    "slug": "scroll-of-uncommon-inscription",
+    "icon": "/game/items/materials/Item_131001.png",
+    "grade": "Uncommon",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+2~10",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+10~25%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Dodge Chance",
+            "value": "+3.5~7%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+3.5~7%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Max HP",
+            "value": "+30~120",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+2.5~7%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+15~30%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+15~30%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+20~50%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+20~50%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+20~50%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+20~50%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+10~25%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+10~25%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+10~25%",
+            "tier": "T2-4"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+150~300",
+            "tier": "T2-4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "112001",
+    "name": "Ruby",
+    "slug": "ruby",
+    "icon": "/game/items/materials/Item_112001.png",
+    "grade": "Rare",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Fire Resistance",
+            "value": "+15~20%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+3~6",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "112002",
+    "name": "Sapphire",
+    "slug": "sapphire",
+    "icon": "/game/items/materials/Item_112002.png",
+    "grade": "Rare",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+15~20%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+20~25%",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "112003",
+    "name": "Topaz",
+    "slug": "topaz",
+    "icon": "/game/items/materials/Item_112003.png",
+    "grade": "Rare",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+15~20%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+12~14%",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "112004",
+    "name": "Emerald",
+    "slug": "emerald",
+    "icon": "/game/items/materials/Item_112004.png",
+    "grade": "Rare",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+7~9%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Chaos Resistance",
+            "value": "+15~20%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+20~25%",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "112005",
+    "name": "Amethyst",
+    "slug": "amethyst",
+    "icon": "/game/items/materials/Item_112005.png",
+    "grade": "Rare",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Physical Damage Percent",
+            "value": "+30~40%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+60~90",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+4~5.5%",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "122001",
+    "name": "Bat Wing Membrane",
+    "slug": "bat-wing-membrane",
+    "icon": "/game/items/materials/Item_122001.png",
+    "grade": "Rare",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+40~50%",
+            "tier": "T4"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+40~50%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Damage Reduction",
+            "value": "+3~4%",
+            "tier": "T3"
+          },
+          {
+            "name": "Max HP",
+            "value": "+60~90",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+20~25%",
+            "tier": "T3"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+1~2",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "122002",
+    "name": "Ogre Blood",
+    "slug": "ogre-blood",
+    "icon": "/game/items/materials/Item_122002.png",
+    "grade": "Rare",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+10~12%",
+            "tier": "T4"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+20~25%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+200~250",
+            "tier": "T3"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+15~20%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+60~90",
+            "tier": "T3"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+3~6",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "122003",
+    "name": "Mushroom Spore",
+    "slug": "mushroom-spore",
+    "icon": "/game/items/materials/Item_122003.png",
+    "grade": "Rare",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+5.5~7%",
+            "tier": "T4"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+4~6",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+4.5~5.5%",
+            "tier": "T3"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+15~20%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+200~250",
+            "tier": "T3"
+          },
+          {
+            "name": "Max HP",
+            "value": "+60~90",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "122004",
+    "name": "Ancient Tree Sap",
+    "slug": "ancient-tree-sap",
+    "icon": "/game/items/materials/Item_122004.png",
+    "grade": "Rare",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+25~30%",
+            "tier": "T4"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+10~12%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+200~250",
+            "tier": "T3"
+          },
+          {
+            "name": "Damage Reduction",
+            "value": "+3~4%",
+            "tier": "T3"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+20~25%",
+            "tier": "T3"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+6~7%",
+            "tier": "T3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "132001",
+    "name": "Scroll of Rare Inscription",
+    "slug": "scroll-of-rare-inscription",
+    "icon": "/game/items/materials/Item_132001.png",
+    "grade": "Rare",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+3~15",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+15~30%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Armor",
+            "value": "+100~250",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Armor",
+            "value": "+20~35%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Max HP",
+            "value": "+60~150",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+6~11%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+12~20%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+9~14%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Increase Area Of Effect Damage",
+            "value": "+30~60%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Increase Melee Damage",
+            "value": "+30~60%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Increase Projectile Damage",
+            "value": "+30~60%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Increase Summon Damage",
+            "value": "+30~60%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+15~30%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+15~30%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+15~30%",
+            "tier": "T3-5"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+1~7",
+            "tier": "T3-5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "113001",
+    "name": "Crystal Quartz",
+    "slug": "crystal-quartz",
+    "icon": "/game/items/materials/Item_113001.png",
+    "grade": "Legendary",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+10~15",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+250~300",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+25~30%",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "113002",
+    "name": "Pearl",
+    "slug": "pearl",
+    "icon": "/game/items/materials/Item_113002.png",
+    "grade": "Legendary",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+7~8.5%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Damage Reduction",
+            "value": "+4~5.5%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+25~30%",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "113003",
+    "name": "Turquoise",
+    "slug": "turquoise",
+    "icon": "/game/items/materials/Item_113003.png",
+    "grade": "Legendary",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+30~35%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+5.5~7%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+90~120",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "113004",
+    "name": "Garnet",
+    "slug": "garnet",
+    "icon": "/game/items/materials/Item_113004.png",
+    "grade": "Legendary",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+30~40%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+25~30%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+7~9%",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "123001",
+    "name": "Skull",
+    "slug": "skull",
+    "icon": "/game/items/materials/Item_123001.png",
+    "grade": "Legendary",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+7~8.5%",
+            "tier": "T5"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+50~60%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+20~25%",
+            "tier": "T4"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+20~25%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+14~16%",
+            "tier": "T4"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+25~30%",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "123002",
+    "name": "Harpy Feather",
+    "slug": "harpy-feather",
+    "icon": "/game/items/materials/Item_123002.png",
+    "grade": "Legendary",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+50~60%",
+            "tier": "T5"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+25~30%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+5.5~7%",
+            "tier": "T4"
+          },
+          {
+            "name": "Damage Reduction",
+            "value": "+4~5.5%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+6~10",
+            "tier": "T4"
+          },
+          {
+            "name": "Max HP",
+            "value": "+90~120",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "123003",
+    "name": "Mandrake Root",
+    "slug": "mandrake-root",
+    "icon": "/game/items/materials/Item_123003.png",
+    "grade": "Legendary",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+5~7",
+            "tier": "T5"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+50~60%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+20~25%",
+            "tier": "T4"
+          },
+          {
+            "name": "Max HP",
+            "value": "+90~120",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Leech",
+            "value": "+2.5~3.5%",
+            "tier": "T4"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+250~300",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "123004",
+    "name": "Nightshade Extract",
+    "slug": "nightshade-extract",
+    "icon": "/game/items/materials/Item_123004.png",
+    "grade": "Legendary",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+25~30%",
+            "tier": "T5"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+30~35%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+20~25%",
+            "tier": "T4"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+20~25%",
+            "tier": "T4"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+4~6",
+            "tier": "T4"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+25~30%",
+            "tier": "T4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "133001",
+    "name": "Scroll of Legendary Inscription",
+    "slug": "scroll-of-legendary-inscription",
+    "icon": "/game/items/materials/Item_133001.png",
+    "grade": "Legendary",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+6~30",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+20~40%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Armor",
+            "value": "+150~300",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Armor",
+            "value": "+25~40%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Dodge Chance",
+            "value": "+5.5~11%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+5.5~11%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Max HP",
+            "value": "+90~180",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+5.5~10%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+25~40%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+25~50%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+40~80%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+40~80%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+40~80%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+40~80%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+20~35%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+20~35%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+20~35%",
+            "tier": "T4-6"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+250~500",
+            "tier": "T4-6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "114001",
+    "name": "Diamond",
+    "slug": "diamond",
+    "icon": "/game/items/materials/Item_114001.png",
+    "grade": "Immortal",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+15~30",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "All Elemental Resistance",
+            "value": "+13~15%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+12~14%",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "114002",
+    "name": "Opal",
+    "slug": "opal",
+    "icon": "/game/items/materials/Item_114002.png",
+    "grade": "Immortal",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+11~13%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+17~20%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+300~400",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "114003",
+    "name": "Lapis Lazuli",
+    "slug": "lapis-lazuli",
+    "icon": "/game/items/materials/Item_114003.png",
+    "grade": "Immortal",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+35~40%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Dodge Chance",
+            "value": "+7~9%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+30~35%",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "114004",
+    "name": "Black Pearl",
+    "slug": "black-pearl",
+    "icon": "/game/items/materials/Item_114004.png",
+    "grade": "Immortal",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+14~17%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+7~9%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+16~20%",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "124001",
+    "name": "Basilisk Scale",
+    "slug": "basilisk-scale",
+    "icon": "/game/items/materials/Item_124001.png",
+    "grade": "Immortal",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Leech",
+            "value": "+3.5~4.5%",
+            "tier": "T6"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+15~30",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+120~150",
+            "tier": "T5"
+          },
+          {
+            "name": "Damage Reduction",
+            "value": "+5.5~7%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+30~35%",
+            "tier": "T5"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+16~20%",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "124002",
+    "name": "Wyvern Claw",
+    "slug": "wyvern-claw",
+    "icon": "/game/items/materials/Item_124002.png",
+    "grade": "Immortal",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+60~80%",
+            "tier": "T6"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+6~8",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+25~30%",
+            "tier": "T5"
+          },
+          {
+            "name": "Armor",
+            "value": "+200~250",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+30~35%",
+            "tier": "T5"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+300~400",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "124003",
+    "name": "Dice",
+    "slug": "dice",
+    "icon": "/game/items/materials/Item_124003.png",
+    "grade": "Immortal",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Physical Damage Percent",
+            "value": "+60~80%",
+            "tier": "T6"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+60~80%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Damage Absorption",
+            "value": "+22~26",
+            "tier": "T5"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+7~9%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+7~8.5%",
+            "tier": "T5"
+          },
+          {
+            "name": "Movement Speed",
+            "value": "+30~35%",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "124004",
+    "name": "Demon Blood",
+    "slug": "demon-blood",
+    "icon": "/game/items/materials/Item_124004.png",
+    "grade": "Immortal",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+14~17%",
+            "tier": "T6"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+60~80%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+7~9%",
+            "tier": "T5"
+          },
+          {
+            "name": "Dodge Chance",
+            "value": "+7~9%",
+            "tier": "T5"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Leech",
+            "value": "+3~4%",
+            "tier": "T5"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+30~35%",
+            "tier": "T5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "134001",
+    "name": "Scroll of Immortal Inscription",
+    "slug": "scroll-of-immortal-inscription",
+    "icon": "/game/items/materials/Item_134001.png",
+    "grade": "Immortal",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "7% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+10~50",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+25~50%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Max HP",
+            "value": "+120~210",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+9~15%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+16~30%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+12~20%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Skill Duration Increase",
+            "value": "+22~36%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+50~100%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+50~100%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+50~100%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+50~100%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+25~40%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+25~40%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+25~40%",
+            "tier": "T5-7"
+          },
+          {
+            "name": "HP Leech",
+            "value": "+3~5%",
+            "tier": "T5-7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "115001",
+    "name": "Arcane Crystal",
+    "slug": "arcane-crystal",
+    "icon": "/game/items/materials/Item_115001.png",
+    "grade": "Arcana",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+25~30%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+8.5~10%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+40~50%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "115002",
+    "name": "Mystic Topaz",
+    "slug": "mystic-topaz",
+    "icon": "/game/items/materials/Item_115002.png",
+    "grade": "Arcana",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+80~100%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+30~35%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+20~25%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "115003",
+    "name": "Enchanted Ruby",
+    "slug": "enchanted-ruby",
+    "icon": "/game/items/materials/Item_115003.png",
+    "grade": "Arcana",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+80~100%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Fire Resistance",
+            "value": "+30~35%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+15~30",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "115004",
+    "name": "Starlight Sapphire",
+    "slug": "starlight-sapphire",
+    "icon": "/game/items/materials/Item_115004.png",
+    "grade": "Arcana",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+80~100%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+30~35%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+35~40%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "125001",
+    "name": "Minotaur Horn",
+    "slug": "minotaur-horn",
+    "icon": "/game/items/materials/Item_125001.png",
+    "grade": "Arcana",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+80~100%",
+            "tier": "T7"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+13~15%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+30~35%",
+            "tier": "T6"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+400~500",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+14~17%",
+            "tier": "T6"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+8.5~10%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "125002",
+    "name": "Griffin Beak",
+    "slug": "griffin-beak",
+    "icon": "/game/items/materials/Item_125002.png",
+    "grade": "Arcana",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+80~100%",
+            "tier": "T7"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+30~50",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+30~35%",
+            "tier": "T6"
+          },
+          {
+            "name": "Max HP",
+            "value": "+20~25%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+20~25%",
+            "tier": "T6"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+40~50%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "125003",
+    "name": "Phoenix Ash",
+    "slug": "phoenix-ash",
+    "icon": "/game/items/materials/Item_125003.png",
+    "grade": "Arcana",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+40~45%",
+            "tier": "T7"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+30~50",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Damage Absorption",
+            "value": "+26~30",
+            "tier": "T6"
+          },
+          {
+            "name": "Damage Reduction",
+            "value": "+7~8.5%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+11~13%",
+            "tier": "T6"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+40~50%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "125004",
+    "name": "Dragon Bile",
+    "slug": "dragon-bile",
+    "icon": "/game/items/materials/Item_125004.png",
+    "grade": "Arcana",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+50~60%",
+            "tier": "T7"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+40~45%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Dodge Chance",
+            "value": "+9~11%",
+            "tier": "T6"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+9~11%",
+            "tier": "T6"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+35~40%",
+            "tier": "T6"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+6~8",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "135001",
+    "name": "Scroll of Arcana Inscription",
+    "slug": "scroll-of-arcana-inscription",
+    "icon": "/game/items/materials/Item_135001.png",
+    "grade": "Arcana",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+15~100",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+30~70%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Armor",
+            "value": "+250~400",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Armor",
+            "value": "+35~50%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Max HP",
+            "value": "+20~35%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+8.5~13%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+35~50%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+40~80%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Increase Area Of Effect Damage",
+            "value": "+60~130%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Increase Melee Damage",
+            "value": "+60~130%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Increase Projectile Damage",
+            "value": "+60~130%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Increase Summon Damage",
+            "value": "+60~130%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+30~45%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+30~45%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+30~45%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+30~45%",
+            "tier": "T6-8"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+400~1,000",
+            "tier": "T6-8"
+          },
+          {
+            "name": "Skill Heal Increase",
+            "value": "+26.6~40.6%",
+            "tier": "T6-8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "116001",
+    "name": "Void Opal",
+    "slug": "void-opal",
+    "icon": "/game/items/materials/Item_116001.png",
+    "grade": "Beyond",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+11.5~13%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+25~30%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+180~210",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "116002",
+    "name": "Astral Diamond",
+    "slug": "astral-diamond",
+    "icon": "/game/items/materials/Item_116002.png",
+    "grade": "Beyond",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+50~100",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "All Elemental Resistance",
+            "value": "+17~19%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+17~20%",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "116003",
+    "name": "Phantom Emerald",
+    "slug": "phantom-emerald",
+    "icon": "/game/items/materials/Item_116003.png",
+    "grade": "Beyond",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+15~17%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Chaos Resistance",
+            "value": "+35~40%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+40~45%",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "116004",
+    "name": "Twilight Amethyst",
+    "slug": "twilight-amethyst",
+    "icon": "/game/items/materials/Item_116004.png",
+    "grade": "Beyond",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Physical Damage Percent",
+            "value": "+100~130%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+180~210",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+8.5~10%",
+            "tier": "T6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "126001",
+    "name": "Wraith Essence",
+    "slug": "wraith-essence",
+    "icon": "/game/items/materials/Item_126001.png",
+    "grade": "Beyond",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+60~80%",
+            "tier": "T8"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+100~130%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+11~13%",
+            "tier": "T7"
+          },
+          {
+            "name": "Max HP",
+            "value": "+180~210",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+7~9",
+            "tier": "T7"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+50~60%",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "126002",
+    "name": "Kraken Ink",
+    "slug": "kraken-ink",
+    "icon": "/game/items/materials/Item_126002.png",
+    "grade": "Beyond",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Damage Percent",
+            "value": "+100~130%",
+            "tier": "T8"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+20~23%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+35~40%",
+            "tier": "T7"
+          },
+          {
+            "name": "Dodge Chance",
+            "value": "+11~13%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+7~9",
+            "tier": "T7"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+30~50",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "126003",
+    "name": "Titan Marrow",
+    "slug": "titan-marrow",
+    "icon": "/game/items/materials/Item_126003.png",
+    "grade": "Beyond",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+50~70%",
+            "tier": "T8"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+100~130%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Lightning Resistance",
+            "value": "+35~40%",
+            "tier": "T7"
+          },
+          {
+            "name": "Damage Reduction",
+            "value": "+8.5~10%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+500~700",
+            "tier": "T7"
+          },
+          {
+            "name": "Max HP",
+            "value": "+180~210",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "126004",
+    "name": "Void Ichor",
+    "slug": "void-ichor",
+    "icon": "/game/items/materials/Item_126004.png",
+    "grade": "Beyond",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+45~50%",
+            "tier": "T8"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+8~10",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Damage Reduction",
+            "value": "+8.5~10%",
+            "tier": "T7"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+35~40%",
+            "tier": "T7"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+40~45%",
+            "tier": "T7"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+40~45%",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "136001",
+    "name": "Scroll of Beyond Inscription",
+    "slug": "scroll-of-beyond-inscription",
+    "icon": "/game/items/materials/Item_136001.png",
+    "grade": "Beyond",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+30~150",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+40~100%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Armor",
+            "value": "+300~450",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Armor",
+            "value": "+40~55%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Max HP",
+            "value": "+180~270",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+13~20%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+25~40%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+17~28%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+80~180%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+80~180%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+80~180%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+80~180%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+35~50%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+35~50%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+35~50%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+35~50%",
+            "tier": "T7-9"
+          },
+          {
+            "name": "Add Hp Per Kill",
+            "value": "+16~30",
+            "tier": "T7-9"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "117001",
+    "name": "Celestial Pearl",
+    "slug": "celestial-pearl",
+    "icon": "/game/items/materials/Item_117001.png",
+    "grade": "Celestial",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+50~55%",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Damage Absorption",
+            "value": "+40~50",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+40~45%",
+            "tier": "T7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "117002",
+    "name": "Dragonite Crystal",
+    "slug": "dragonite-crystal",
+    "icon": "/game/items/materials/Item_117002.png",
+    "grade": "Celestial",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+80~100%",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+45~50%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+60~80%",
+            "tier": "T8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "127001",
+    "name": "Abyssal Mucus",
+    "slug": "abyssal-mucus",
+    "icon": "/game/items/materials/Item_127001.png",
+    "grade": "Celestial",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Fire Damage Percent",
+            "value": "+130~180%",
+            "tier": "T9"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+13~14.5%",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Armor",
+            "value": "+45~50%",
+            "tier": "T8"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+13~16%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Speed",
+            "value": "+15~17%",
+            "tier": "T8"
+          },
+          {
+            "name": "Movement Speed",
+            "value": "+45~50%",
+            "tier": "T8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "127002",
+    "name": "Chaos Spore",
+    "slug": "chaos-spore",
+    "icon": "/game/items/materials/Item_127002.png",
+    "grade": "Celestial",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Physical Damage Percent",
+            "value": "+130~180%",
+            "tier": "T9"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+100~150",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cold Resistance",
+            "value": "+40~45%",
+            "tier": "T8"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+40~45%",
+            "tier": "T8"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Movement Speed",
+            "value": "+45~50%",
+            "tier": "T8"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+700~1,000",
+            "tier": "T8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "137001",
+    "name": "Scroll of Celestial Inscription",
+    "slug": "scroll-of-celestial-inscription",
+    "icon": "/game/items/materials/Item_137001.png",
+    "grade": "Celestial",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+50~300",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+50~150%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Armor",
+            "value": "+350~500",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Armor",
+            "value": "+45~60%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Max HP",
+            "value": "+30~50%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+45~60%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+60~150%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Skill Duration Increase",
+            "value": "+36~50%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Increase Area Of Effect Damage",
+            "value": "+100~250%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Increase Melee Damage",
+            "value": "+100~250%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Increase Projectile Damage",
+            "value": "+100~250%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Increase Summon Damage",
+            "value": "+100~250%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+40~55%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+40~55%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+40~55%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+40~55%",
+            "tier": "T8-10"
+          },
+          {
+            "name": "Add HP Per Hit",
+            "value": "+8~12",
+            "tier": "T8-10"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "118001",
+    "name": "Void Crystal",
+    "slug": "void-crystal",
+    "icon": "/game/items/materials/Item_118001.png",
+    "grade": "Divine",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+100~150%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Cooldown Reduction",
+            "value": "+13~14.5%",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+70~100%",
+            "tier": "T9"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "118002",
+    "name": "Abyssal Pearl",
+    "slug": "abyssal-pearl",
+    "icon": "/game/items/materials/Item_118002.png",
+    "grade": "Divine",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+10~12",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+1,000~1,500",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "HP Leech",
+            "value": "+5~6%",
+            "tier": "T9"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "128001",
+    "name": "Primordial Sap",
+    "slug": "primordial-sap",
+    "icon": "/game/items/materials/Item_128001.png",
+    "grade": "Divine",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Area Of Effect",
+            "value": "+28~35%",
+            "tier": "T10"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+180~250%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Chaos Resistance",
+            "value": "+45~50%",
+            "tier": "T9"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+1,000~1,500",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+35~40%",
+            "tier": "T9"
+          },
+          {
+            "name": "Movement Speed",
+            "value": "+50~55%",
+            "tier": "T9"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "128002",
+    "name": "Eldritch Venom",
+    "slug": "eldritch-venom",
+    "icon": "/game/items/materials/Item_128002.png",
+    "grade": "Divine",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Add HP Per Hit",
+            "value": "+10~12",
+            "tier": "T10"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+20~25%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Block Chance",
+            "value": "+16~20%",
+            "tier": "T9"
+          },
+          {
+            "name": "Armor",
+            "value": "+50~55%",
+            "tier": "T9"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+50~55%",
+            "tier": "T9"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+13~14.5%",
+            "tier": "T9"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "138001",
+    "name": "Scroll of Divine Inscription",
+    "slug": "scroll-of-divine-inscription",
+    "icon": "/game/items/materials/Item_138001.png",
+    "grade": "Divine",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+100~300",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+70~150%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Armor",
+            "value": "+400~500",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Armor",
+            "value": "+50~60%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Max HP",
+            "value": "+240~300",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+17~25%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+35~50%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Physical Damage Percent",
+            "value": "+130~250%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Fire Damage Percent",
+            "value": "+130~250%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Cold Damage Percent",
+            "value": "+130~250%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Lightning Damage Percent",
+            "value": "+130~250%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Fire Resistance",
+            "value": "+45~55%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Cold Resistance",
+            "value": "+45~55%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Lightning Resistance",
+            "value": "+45~55%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+45~55%",
+            "tier": "T9-10"
+          },
+          {
+            "name": "HP Regen Per Sec",
+            "value": "+1,000~2,000",
+            "tier": "T9-10"
+          },
+          {
+            "name": "Skill Heal Increase",
+            "value": "+40.6~50%",
+            "tier": "T9-10"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "119001",
+    "name": "Ethereal Gem",
+    "slug": "ethereal-gem",
+    "icon": "/game/items/materials/Item_119001.png",
+    "grade": "Cosmic",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Multistrike",
+            "value": "+1",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Damage Reduction",
+            "value": "+14~16%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Base Attack Count Reduction",
+            "value": "+1",
+            "tier": "T10"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "119002",
+    "name": "Chaos Diamond",
+    "slug": "chaos-diamond",
+    "icon": "/game/items/materials/Item_119002.png",
+    "grade": "Cosmic",
+    "type": "Decoration",
+    "slots": {
+      "Weapon": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Projectile Count",
+            "value": "+1",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "All Elemental Resistance",
+            "value": "+25~30%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": null,
+        "stats": [
+          {
+            "name": "Critical Damage",
+            "value": "+100~150%",
+            "tier": "T10"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "129001",
+    "name": "Chaso Dice",
+    "slug": "chaso-dice",
+    "icon": "/game/items/materials/Item_129001.png",
+    "grade": "Cosmic",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Critical Chance",
+            "value": "+2.5~3%",
+            "tier": "T10"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+150~300",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+270~300",
+            "tier": "T10"
+          },
+          {
+            "name": "Damage Absorption",
+            "value": "+60~80",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Cast Speed",
+            "value": "+40~50%",
+            "tier": "T10"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+150~300",
+            "tier": "T10"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "129002",
+    "name": "Void Tendril",
+    "slug": "void-tendril",
+    "icon": "/game/items/materials/Item_129002.png",
+    "grade": "Cosmic",
+    "type": "Engraving",
+    "slots": {
+      "Weapon": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+100~150%",
+            "tier": "T10"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+100~150%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Armor": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Fire Resistance",
+            "value": "+50~55%",
+            "tier": "T10"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+14.5~16%",
+            "tier": "T10"
+          }
+        ]
+      },
+      "Accessory": {
+        "rollChance": "50% each",
+        "stats": [
+          {
+            "name": "Max HP",
+            "value": "+270~300",
+            "tier": "T10"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+55~60%",
+            "tier": "T10"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "139001",
+    "name": "Scroll of Cosmic Inscription",
+    "slug": "scroll-of-cosmic-inscription",
+    "icon": "/game/items/materials/Item_139001.png",
+    "grade": "Cosmic",
+    "type": "Inscription",
+    "slots": {
+      "All slots": {
+        "rollChance": "6% each",
+        "stats": [
+          {
+            "name": "Attack Damage",
+            "value": "+150~300",
+            "tier": "T10"
+          },
+          {
+            "name": "Attack Damage",
+            "value": "+100~150%",
+            "tier": "T10"
+          },
+          {
+            "name": "Max HP",
+            "value": "+270~300",
+            "tier": "T10"
+          },
+          {
+            "name": "Max HP",
+            "value": "+40~50%",
+            "tier": "T10"
+          },
+          {
+            "name": "Dodge Chance",
+            "value": "+20~30%",
+            "tier": "T10"
+          },
+          {
+            "name": "Block Chance",
+            "value": "+20~30%",
+            "tier": "T10"
+          },
+          {
+            "name": "Attack Speed",
+            "value": "+20~25%",
+            "tier": "T10"
+          },
+          {
+            "name": "Cast Speed",
+            "value": "+40~50%",
+            "tier": "T10"
+          },
+          {
+            "name": "Area Of Effect",
+            "value": "+28~35%",
+            "tier": "T10"
+          },
+          {
+            "name": "Cooldown Reduction",
+            "value": "+14.5~16%",
+            "tier": "T10"
+          },
+          {
+            "name": "Skill Duration Increase",
+            "value": "+45.3~50%",
+            "tier": "T10"
+          },
+          {
+            "name": "Movement Speed",
+            "value": "+76~83",
+            "tier": "T10"
+          },
+          {
+            "name": "Movement Speed",
+            "value": "+55~60%",
+            "tier": "T10"
+          },
+          {
+            "name": "Critical Chance",
+            "value": "+55~60%",
+            "tier": "T10"
+          },
+          {
+            "name": "Critical Damage",
+            "value": "+100~150%",
+            "tier": "T10"
+          },
+          {
+            "name": "All Elemental Resistance",
+            "value": "+25~30%",
+            "tier": "T10"
+          },
+          {
+            "name": "Chaos Resistance",
+            "value": "+50~55%",
+            "tier": "T10"
+          },
+          {
+            "name": "HP Leech",
+            "value": "+5~6.5%",
+            "tier": "T9-10"
+          }
+        ]
+      }
+    }
+  }
+]

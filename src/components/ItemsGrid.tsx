@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { TbhItem } from "../types";
 import { ItemCard } from "./ItemCard";
@@ -23,14 +23,21 @@ export const ItemsGrid: React.FC<ItemsGridProps> = ({
   onClick
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = React.useState<number | null>(null);
 
-  // Measure actual columns dynamically
-  const getColCount = useCallback(() => {
-    const w = parentRef.current?.clientWidth ?? 900;
-    return Math.max(1, Math.floor(w / CARD_MIN_WIDTH));
+  React.useEffect(() => {
+    if (!parentRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        setWidth(entries[0].contentRect.width);
+      }
+    });
+    observer.observe(parentRef.current);
+    return () => observer.disconnect();
   }, []);
 
-  const colCount = getColCount();
+  const currentWidth = width ?? parentRef.current?.clientWidth ?? 900;
+  const colCount = Math.max(1, Math.floor(currentWidth / CARD_MIN_WIDTH));
   const rowCount = Math.ceil(items.length / colCount);
 
   const virtualizer = useVirtualizer({
@@ -68,7 +75,6 @@ export const ItemsGrid: React.FC<ItemsGridProps> = ({
             <div
               key={virtualRow.key}
               data-index={virtualRow.index}
-              ref={virtualizer.measureElement}
               style={{
                 position: "absolute",
                 top: 0,

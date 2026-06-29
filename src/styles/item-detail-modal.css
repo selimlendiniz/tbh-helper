@@ -440,6 +440,19 @@
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
 }
 
+.modal-item-meta .steam-link-btn.wiki {
+  color: #fce454;
+  background: rgba(252, 228, 84, 0.08);
+  border: 1px solid rgba(252, 228, 84, 0.25);
+}
+
+.modal-item-meta .steam-link-btn.wiki:hover {
+  background: rgba(252, 228, 84, 0.15);
+  border-color: #fce454;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(252, 228, 84, 0.15);
+}
+
 /* Chart filter tabs/pills */
 .chart-header-row {
   display: flex;
