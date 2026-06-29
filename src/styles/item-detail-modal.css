@@ -253,6 +253,25 @@
   filter: drop-shadow(0 0 4px var(--accent-gold));
 }
 
+/* Live chart pulsing dot */
+.live-chart-dot {
+  animation: liveChartPulse 1.5s ease-in-out infinite;
+}
+
+.live-chart-ring {
+  animation: liveChartRing 1.5s ease-in-out infinite;
+}
+
+@keyframes liveChartPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes liveChartRing {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0; transform: scale(1.5); }
+}
+
 /* Floating Chart Tooltip */
 .chart-hover-tooltip {
   position: absolute;

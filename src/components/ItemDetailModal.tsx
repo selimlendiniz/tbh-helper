@@ -672,6 +672,28 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
                     {/* Line stroke path */}
                     <path d={svgPaths.linePath} fill="none" stroke="var(--accent-gold)" strokeWidth="2" />
 
+                    {/* Live data pulsing dot at latest point */}
+                    {livePricePoints.length > 0 && points.length > 0 && (
+                      <g>
+                        <circle 
+                          cx={points[points.length - 1].x} 
+                          cy={points[points.length - 1].y} 
+                          r="6" 
+                          fill="#34d399" 
+                          className="live-chart-dot"
+                        />
+                        <circle 
+                          cx={points[points.length - 1].x} 
+                          cy={points[points.length - 1].y} 
+                          r="10" 
+                          fill="none" 
+                          stroke="#34d399" 
+                          strokeWidth="2"
+                          className="live-chart-ring"
+                        />
+                      </g>
+                    )}
+
 
 
                     {/* Hover vertical line and tooltip marker dot */}
