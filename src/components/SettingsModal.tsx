@@ -65,7 +65,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     import("@tauri-apps/api/app")
       .then(({ getVersion }) => getVersion())
       .then(setAppVersion)
-      .catch(() => setAppVersion("0.0.3"));
+      .catch(() => setAppVersion("0.0.4"));
   }, [isOpen]);
 
   const openRelease = async () => {

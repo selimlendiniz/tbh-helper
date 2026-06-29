@@ -21,6 +21,7 @@ interface TabNavigationProps {
   setHideNoPriceItems: (v: boolean) => void;
   showUnobtainable: boolean;
   setShowUnobtainable: (v: boolean) => void;
+  searchingSteam?: boolean;
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = ({
@@ -40,6 +41,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   setHideNoPriceItems,
   showUnobtainable,
   setShowUnobtainable,
+  searchingSteam,
 }) => {
   const { t } = useTranslation();
   return (
@@ -73,13 +75,26 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
 
       {activeTab !== "analytics" && (
         <div className="filters-list">
-          <input 
-            type="text" 
-            placeholder={t("searchPlaceholder")} 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
+          <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <input 
+              type="text" 
+              placeholder={t("searchPlaceholder")} 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+            {searchingSteam && activeTab === "market" && (
+              <span style={{
+                position: "absolute",
+                right: "8px",
+                fontSize: "10px",
+                color: "var(--text-muted)",
+                pointerEvents: "none",
+              }}>
+                Steam...
+              </span>
+            )}
+          </div>
           <select 
             value={gradeFilter}
             onChange={(e) => setGradeFilter(e.target.value)}

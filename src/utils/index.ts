@@ -20,6 +20,22 @@ export async function fetchUrlWithRetry(url: string, retries = 3, baseDelay = 20
   throw new Error("Failed after retries");
 }
 
+export async function fetchUrlPostWithRetry(url: string, body: string, retries = 3, baseDelay = 2000): Promise<string> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await invoke<string>("fetch_url_post", { url, body });
+    } catch (err) {
+      if (i === retries - 1) {
+        throw err;
+      }
+      const delay = baseDelay * Math.pow(2, i);
+      console.warn(`POST request failed for ${url}. Retrying in ${delay}ms... Error:`, err);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error("Failed after retries");
+}
+
 export const formatDecimal = (val: string | number): string => {
   return String(val).replace(".", ",");
 };
@@ -159,6 +175,51 @@ export const getSlotLimits = (grade: string, gearType: string | null) => {
   }
 };
 
+export interface SearchableItem {
+  name: string;
+  marketHashName: string;
+  gearType: string | null;
+  grade: string;
+  level: number | null;
+}
+
+export function matchSearchQuery(item: SearchableItem, query: string): boolean {
+  if (!query.trim()) return true;
+  const tokens = query.trim().toLowerCase().split(/\s+/);
+  return tokens.every((token) => {
+    const isNumeric = /^\d+$/.test(token);
+    const nameMatch = item.name?.toLowerCase().includes(token) ?? false;
+    const engMatch = item.marketHashName?.toLowerCase().includes(token) ?? false;
+    const gearMatch = item.gearType != null && item.gearType.toLowerCase() === token;
+    const gradeMatch = item.grade?.toLowerCase() === token;
+    if (isNumeric) {
+      const levelMatch = item.level != null && item.level.toString() === token;
+      return levelMatch || nameMatch || engMatch;
+    }
+    return nameMatch || engMatch || gearMatch || gradeMatch;
+  });
+}
+
+export function centsToDollars(cents: number): number {
+  return cents / 100;
+}
+
+export function parsePriceString(str: string): number | null {
+  if (!str) return null;
+  const cents = parseInt(str.replace(/[^0-9]/g, ""), 10);
+  if (isNaN(cents)) return null;
+  return centsToDollars(cents);
+}
+
+export function formatPrice(price: number, options?: { minFraction?: number; maxFraction?: number }): string {
+  const minFrac = options?.minFraction ?? 2;
+  const maxFrac = options?.maxFraction ?? 3;
+  return `$${price.toLocaleString(undefined, { minimumFractionDigits: minFrac, maximumFractionDigits: maxFrac })}`;
+}
+
+export function formatPriceShort(price: number): string {
+  return `$${price.toFixed(2)}`;
+}
 export const getInherentOptions = (
   gearType: string | null,
   level: number | null,
