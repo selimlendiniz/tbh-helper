@@ -177,8 +177,11 @@ export class SteamMarketProvider implements PriceProvider {
           onProgress({}, 1, 1, true);
         }
         retryCount1++;
-        if (retryCount1 < PriceFetchConfig.maxRetries) {
-          console.log("Steam 429 on Page 1. Waiting 60s before retrying Page 1...");
+        if (retryCount1 >= PriceFetchConfig.maxRetries) {
+          throw e;
+        }
+        if (is429) {
+          console.log(`Steam 429 on Page 1. Waiting ${PriceFetchConfig.steam429BackoffMs / 1000}s before retry...`);
           if (signal?.aborted) return priceMap;
           await new Promise<void>((resolve) => {
             const timeout = setTimeout(resolve, PriceFetchConfig.steam429BackoffMs);
@@ -190,7 +193,7 @@ export class SteamMarketProvider implements PriceProvider {
             }
           });
         } else {
-          throw e;
+          console.log(`Non-429 error. Retrying immediately...`);
         }
       }
     }
