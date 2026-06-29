@@ -13,6 +13,7 @@ interface MarketExplorerProps {
   onMouseMove: (e: React.MouseEvent) => void;
   onMouseLeave: () => void;
   onClick?: (item: MarketItem) => void;
+  showUnobtainable?: boolean;
 }
 
 export const MarketExplorer: React.FC<MarketExplorerProps> = ({

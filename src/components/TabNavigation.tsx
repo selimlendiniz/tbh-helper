@@ -19,6 +19,8 @@ interface TabNavigationProps {
   setSortBy: (s: SortType) => void;
   hideNoPriceItems: boolean;
   setHideNoPriceItems: (v: boolean) => void;
+  showUnobtainable: boolean;
+  setShowUnobtainable: (v: boolean) => void;
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = ({
@@ -36,6 +38,8 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   setSortBy,
   hideNoPriceItems,
   setHideNoPriceItems,
+  showUnobtainable,
+  setShowUnobtainable,
 }) => {
   const { t } = useTranslation();
   return (
@@ -61,6 +65,9 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
         </button>
         <button className={`tab-btn ${activeTab === "wishlist" ? "active" : ""}`} onClick={() => setActiveTab("wishlist")}>
           {t("wishlist")}
+        </button>
+        <button className={`tab-btn ${activeTab === "materials" ? "active" : ""}`} onClick={() => setActiveTab("materials")}>
+          {t("materialsTab")}
         </button>
       </div>
 
@@ -126,6 +133,31 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
             />
             {t("onlyUniqueMods")}
           </label>
+
+          {(activeTab === "all" || activeTab === "stash" || activeTab === "inventory" || activeTab === "equipped" || activeTab === "market") && (
+            <label style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "13px",
+              color: "var(--text-muted)",
+              cursor: "pointer",
+              userSelect: "none",
+              whiteSpace: "nowrap",
+              padding: "4px 8px"
+            }}>
+              <input
+                type="checkbox"
+                checked={showUnobtainable}
+                onChange={(e) => setShowUnobtainable(e.target.checked)}
+                style={{
+                  cursor: "pointer",
+                  accentColor: "#ff8000"
+                }}
+              />
+              {t("showUnobtainable")}
+            </label>
+          )}
 
           {activeTab === "market" && (
             <button

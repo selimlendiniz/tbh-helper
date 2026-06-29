@@ -6,6 +6,7 @@ import { TbhItem, ParsedSave, MarketItem, AnalyticsData, TabType, SortType, Port
 import { GRADE_MAP, GRADE_COLORS, HERO_CLASS_NAMES, GRADE_RANK } from "../constants";
 import { PriceManager } from "../services/price/PriceManager";
 import i18n from "../i18n";
+import { isUnobtainableItem } from "../utils";
 
 function translateStatusMessage(msg: string, lang: "en" | "tr"): string {
   if (lang === "en") return msg;
@@ -103,6 +104,7 @@ export function useSaveData() {
   const [onlyUniqueFilter, setOnlyUniqueFilter] = useState(false);
   const [sortBy, setSortBy] = useState<SortType>("value");
   const [hideNoPriceItems, setHideNoPriceItems] = useState(false);
+  const [showUnobtainable, setShowUnobtainable] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Initializing...");
   const [isLive, setIsLive] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -1107,6 +1109,10 @@ export function useSaveData() {
       });
     }
     
+    if (!showUnobtainable) {
+      list = list.filter((item) => !isUnobtainableItem(item.lookupKey));
+    }
+    
     list.sort((a, b) => {
       if (sortBy === "value") {
         const priceA = a.price || 0;
@@ -1129,7 +1135,7 @@ export function useSaveData() {
     });
     
     return list;
-  }, [parsedSave, activeTab, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy]);
+  }, [parsedSave, activeTab, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy, showUnobtainable]);
 
   // Market Explorer items
   const marketExplorerItems = useMemo<MarketItem[]>(() => {
@@ -1204,6 +1210,10 @@ export function useSaveData() {
       });
     }
     
+    if (!showUnobtainable) {
+      filtered = filtered.filter((item) => !isUnobtainableItem(item.lookupKey));
+    }
+    
     filtered.sort((a, b) => {
       if (sortBy === "value") {
         return (b.price || 0) - (a.price || 0);
@@ -1221,7 +1231,7 @@ export function useSaveData() {
     });
     
     return filtered;
-  }, [prices, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy, hideNoPriceItems, language]);
+  }, [prices, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy, hideNoPriceItems, language, showUnobtainable]);
 
   // Analytics Computations
   const analyticsData = useMemo<AnalyticsData | null>(() => {
@@ -1306,6 +1316,8 @@ export function useSaveData() {
     setSortBy,
     hideNoPriceItems,
     setHideNoPriceItems,
+    showUnobtainable,
+    setShowUnobtainable,
     statusMessage: translateStatusMessage(statusMessage, language),
     isLive,
     loading,
