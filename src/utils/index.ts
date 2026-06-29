@@ -16,6 +16,22 @@ export async function fetchUrlWithRetry(url: string, retries = 3, baseDelay = 20
   throw new Error("Failed after retries");
 }
 
+export async function fetchUrlPostWithRetry(url: string, body: string, retries = 3, baseDelay = 2000): Promise<string> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await invoke<string>("fetch_url_post", { url, body });
+    } catch (err) {
+      if (i === retries - 1) {
+        throw err;
+      }
+      const delay = baseDelay * Math.pow(2, i);
+      console.warn(`POST request failed for ${url}. Retrying in ${delay}ms... Error:`, err);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error("Failed after retries");
+}
+
 export const formatDecimal = (val: string | number): string => {
   return String(val).replace(".", ",");
 };

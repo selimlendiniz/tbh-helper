@@ -12,6 +12,7 @@ interface MarketExplorerProps {
   onMouseMove: (e: React.MouseEvent) => void;
   onMouseLeave: () => void;
   onClick?: (item: MarketItem) => void;
+  searchingSteam?: boolean;
 }
 
 export const MarketExplorer: React.FC<MarketExplorerProps> = ({
@@ -20,6 +21,7 @@ export const MarketExplorer: React.FC<MarketExplorerProps> = ({
   onMouseMove,
   onMouseLeave,
   onClick,
+  searchingSteam,
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +44,14 @@ export const MarketExplorer: React.FC<MarketExplorerProps> = ({
   if (items.length === 0) {
     return (
       <div className="empty-state">
-        <p>No market items match your search filters.</p>
+        {searchingSteam ? (
+          <>
+            <div className="loading-spinner" style={{ width: "24px", height: "24px", margin: "0 auto 12px" }} />
+            <p>Searching Steam Market...</p>
+          </>
+        ) : (
+          <p>No market items match your search filters.</p>
+        )}
       </div>
     );
   }
