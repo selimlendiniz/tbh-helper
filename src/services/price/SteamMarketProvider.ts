@@ -47,13 +47,6 @@ export class SteamMarketProvider implements PriceProvider {
         const fetchPageViaWindow = async (startVal: number): Promise<any> => {
           const url = buildSearchUrl(startVal);
           
-          // Ensure the hidden window is visible before navigating
-          try {
-            await invoke("show_steam_window", { label: "steam_login_window" });
-          } catch (e) {
-            console.warn("show_steam_window failed (non-critical):", e);
-          }
-
           await invoke("navigate_steam_window", { label: "steam_login_window", url });
           payloadRef.value = null;
 
