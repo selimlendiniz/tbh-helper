@@ -82,6 +82,7 @@ interface ItemDetailModalProps {
   wishlist?: WishlistItem[];
   onAddToWishlist?: (item: WishlistItem) => void;
   onRemoveFromWishlist?: (itemKey: string) => void;
+  onPriceUpdate?: (price: number) => void;
 }
 
 export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ 
@@ -89,7 +90,8 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
   onClose,
   wishlist = [],
   onAddToWishlist,
-  onRemoveFromWishlist
+  onRemoveFromWishlist,
+  onPriceUpdate
 }) => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || "en";
@@ -207,8 +209,10 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
           fetchMarketDetail(item.marketHashName),
           fetchOrderBook(item.marketHashName).then((data) => {
             if (active) {
-              setOrderBook(summarizeOrderBook(data));
+              const summary = summarizeOrderBook(data);
+              setOrderBook(summary);
               setOrderBookUpdatedAt(Date.now());
+              if (onPriceUpdate) onPriceUpdate(summary.lowestSellPrice);
             }
           }).catch((err) => {
             console.error("Failed to fetch orderbook:", err);
@@ -238,6 +242,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
         const summary = summarizeOrderBook(data);
         setOrderBook(summary);
         setOrderBookUpdatedAt(Date.now());
+        if (onPriceUpdate) onPriceUpdate(summary.lowestSellPrice);
         setOrderBookError(null);
         setLivePricePoints((prev) => {
           const now = new Date();
@@ -264,7 +269,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
       active = false;
       clearInterval(interval);
     };
-  }, [item]);
+  }, [item, onPriceUpdate]);
 
   // Dynamic filter history computation (SSR history + live price points)
   const combinedHistory = useMemo(() => {

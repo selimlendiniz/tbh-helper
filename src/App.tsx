@@ -118,6 +118,7 @@ export default function App() {
     setCloseToTray,
     language,
     setLanguage,
+    updateItemPrice,
   } = useSaveData();
 
   const {
@@ -264,6 +265,7 @@ export default function App() {
           wishlist={wishlist}
           onAddToWishlist={addToWishlist}
           onRemoveFromWishlist={removeFromWishlist}
+          onPriceUpdate={(price) => updateItemPrice(selectedDetailItem.marketHashName, price)}
         />
       )}
 
