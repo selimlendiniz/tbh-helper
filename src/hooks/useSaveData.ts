@@ -1080,11 +1080,21 @@ export function useSaveData() {
     }
     
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter((item) => 
-        item.name.toLowerCase().includes(q) || 
-        (item.gearType && item.gearType.toLowerCase().includes(q))
-      );
+      const tokens = searchQuery.trim().toLowerCase().split(/\s+/);
+      list = list.filter((item) => {
+        return tokens.every((token) => {
+          const isNumeric = /^\d+$/.test(token);
+          const nameMatch = item.name.toLowerCase().includes(token);
+          const engMatch = item.marketHashName.toLowerCase().includes(token);
+          const gearMatch = item.gearType !== null && item.gearType.toLowerCase() === token;
+          const gradeMatch = item.grade.toLowerCase() === token;
+          if (isNumeric) {
+            const levelMatch = item.level !== null && item.level.toString() === token;
+            return levelMatch || nameMatch || engMatch;
+          }
+          return nameMatch || engMatch || gearMatch || gradeMatch;
+        });
+      });
     }
     
     if (gradeFilter !== "all") {
