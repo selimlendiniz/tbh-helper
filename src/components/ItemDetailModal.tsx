@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
-import { fetchUrlWithRetry, isUnobtainableItem, getInherentStats, getInherentOptions, getUniqueModKeyById } from "../utils";
+import { fetchUrlWithRetry, isUnobtainableItem, getInherentOptions, getUniqueModKeyById, getItemBaseStats, translateInherentOption, formatDecimal } from "../utils";
 import { TbhItem, WishlistItem } from "../types";
 // @ts-ignore
 import materialEffectsRaw from "../constants/material_effects.json";
@@ -10,6 +10,7 @@ import "../styles/item-detail-modal.css";
 const materialEffects = materialEffectsRaw as any[];
 
 const STAT_TRANSLATIONS: Record<string, string> = {
+  "Attack Per Second": "Saniye Başına Saldırı",
   "Fire Damage Percent": "Ateş Hasarı Yüzdesi",
   "Fire Resistance": "Ateş Direnci",
   "Attack Damage": "Saldırı Hasarı",
@@ -132,8 +133,8 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
 
   if (!item) return null;
 
-  const inherentStats = getInherentStats(item.gearType, item.level || 1, item.grade, item.lookupKey);
   const inherentOptions = getInherentOptions(item.gearType, item.level || 1, item.grade, item.lookupKey);
+  const baseStats = getItemBaseStats(item.lookupKey, item.gearType);
   const uniqueModKey = getUniqueModKeyById(item.lookupKey);
   const isMaterial = !item.gearType;
 
@@ -786,10 +787,10 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
                   {!isMaterial && (
                     <>
                       {/* Base Stats */}
-                      {inherentStats.map((st, idx) => (
+                      {baseStats.map((st, idx) => (
                         <div key={idx} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", borderBottom: "1px solid rgba(255,255,255,0.03)", paddingBottom: "4px" }}>
                           <span style={{ color: "var(--text-muted)" }}>{translateStat(st.name)}</span>
-                          <span style={{ color: "#fff", fontWeight: "bold" }}>{st.value}</span>
+                          <span style={{ color: "#fff", fontWeight: "bold" }}>{formatDecimal(st.value)}</span>
                         </div>
                       ))}
                       
@@ -797,7 +798,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
                       {inherentOptions.map((opt, idx) => (
                         <div key={idx} style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", gap: "6px", alignItems: "flex-start" }}>
                           <span style={{ color: "var(--accent-gold)" }}>▪</span>
-                          <span>{opt}</span>
+                          <span>{translateInherentOption(opt, currentLang)}</span>
                         </div>
                       ))}
 

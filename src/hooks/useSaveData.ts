@@ -6,7 +6,7 @@ import { TbhItem, ParsedSave, MarketItem, AnalyticsData, TabType, SortType, Port
 import { GRADE_MAP, GRADE_COLORS, HERO_CLASS_NAMES, GRADE_RANK } from "../constants";
 import { PriceManager } from "../services/price/PriceManager";
 import i18n from "../i18n";
-import { isUnobtainableItem } from "../utils";
+import { isUnobtainableItem, getUniqueModKeyById } from "../utils";
 
 function translateStatusMessage(msg: string, lang: "en" | "tr"): string {
   if (lang === "en") return msg;
@@ -1104,6 +1104,8 @@ export function useSaveData() {
     
     if (onlyUniqueFilter) {
       list = list.filter((item) => {
+        const dbKey = getUniqueModKeyById(item.lookupKey);
+        if (dbKey && dbKey !== "none") return true;
         const englishName = tbhData.names[item.itemKey] || item.name;
         return !!getUniqueModKey(englishName, item.grade);
       });
@@ -1206,6 +1208,8 @@ export function useSaveData() {
     
     if (onlyUniqueFilter) {
       filtered = filtered.filter((item) => {
+        const dbKey = getUniqueModKeyById(item.lookupKey);
+        if (dbKey && dbKey !== "none") return true;
         return !!getUniqueModKey(item.name, item.grade);
       });
     }

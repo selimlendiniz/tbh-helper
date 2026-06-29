@@ -159,87 +159,6 @@ export const getSlotLimits = (grade: string, gearType: string | null) => {
   }
 };
 
-export const getInherentStats = (
-  gearType: string | null,
-  level: number | null,
-  grade: string,
-  itemId?: string | null
-) => {
-  if (itemId && gearDetails.stats[itemId]) {
-    const d = gearDetails.stats[itemId];
-    const stats: { name: string; value: string }[] = [];
-    const uGearType = gearType ? gearType.toUpperCase() : "";
-    
-    // BaseStat1
-    if (d.b1 !== undefined && d.b1 !== null) {
-      let statName = "Defense";
-      if (["SWORD", "BOW", "CROSSBOW", "AXE", "HATCHET", "DAGGER"].includes(uGearType)) {
-        statName = "Attack Damage";
-      } else if (["STAFF", "SCEPTER", "ORB", "TOME", "GRIMOIRE"].includes(uGearType)) {
-        statName = "Magic Damage";
-      }
-      stats.push({ name: statName, value: `+${d.b1.toLocaleString()}` });
-    }
-    
-    // BaseStat2
-    if (d.b2 !== undefined && d.b2 !== null) {
-      let statName = "Attack Speed";
-      const displayVal = `+${(d.b2 / 100).toFixed(2)}/s`;
-      stats.push({ name: statName, value: displayVal });
-    }
-    
-    return stats;
-  }
-
-  if (!gearType || !level) return [];
-  
-  const stats: { name: string; value: string }[] = [];
-  
-  const gradeMult: Record<string, number> = {
-    Common: 1,
-    Uncommon: 1.2,
-    Rare: 1.5,
-    Legendary: 2,
-    Immortal: 2.8,
-    Arcana: 4,
-    Beyond: 5.5,
-    Celestial: 7.5,
-    Divine: 10,
-    Cosmic: 13
-  };
-  
-  const m = gradeMult[grade] || 1;
-  
-  const uGearType = gearType.toUpperCase();
-  if (uGearType === "SWORD" || uGearType === "BOW" || uGearType === "CROSSBOW" || uGearType === "AXE" || uGearType === "HATCHET") {
-    const isAxeOrHatchet = ["AXE", "HATCHET"].includes(uGearType);
-    const isCrossbow = uGearType === "CROSSBOW";
-    let aps = "1,27"; // sword
-    if (uGearType === "BOW") aps = "1,45";
-    else if (isCrossbow) aps = "1,35";
-    else if (isAxeOrHatchet) aps = "1,50";
-    
-    stats.push({ name: "Attack Damage", value: `${Math.round(level * (isAxeOrHatchet ? 1.8 : 2) * m + 10)}` });
-    stats.push({ name: "Attack Per Second", value: aps });
-  } else if (uGearType === "STAFF" || uGearType === "SCEPTER" || uGearType === "ORB" || uGearType === "TOME") {
-    const isScepter = uGearType === "SCEPTER";
-    const isTome = uGearType === "TOME";
-    const isOrb = uGearType === "ORB";
-    let aps = "1,15"; // staff
-    if (isScepter) aps = "1,20";
-    else if (isTome) aps = "1,10";
-    else if (isOrb) aps = "1,30"; // orb
-    
-    stats.push({ name: "Magic Damage", value: `${Math.round(level * (isScepter ? 2.1 : isTome ? 2.3 : isOrb ? 2.0 : 2.2) * m + 12)}` });
-    stats.push({ name: "Attack Per Second", value: aps });
-  } else if (["HELMET", "ARMOR", "GLOVES", "BOOTS", "SHIELD"].includes(uGearType)) {
-    const isShield = uGearType === "SHIELD";
-    stats.push({ name: "Defense", value: `${Math.round(level * (isShield ? 1.2 : 0.8) * m + 3)}` });
-  }
-  
-  return stats;
-};
-
 export const getInherentOptions = (
   gearType: string | null,
   level: number | null,
@@ -254,7 +173,7 @@ export const getInherentOptions = (
       'AttackSpeed', 'CriticalDamage', 'CooldownReduction', 'CriticalChance',
       'CastSpeed', 'DamageReduction', 'AllElementalResistance', 'BlockChance',
       'HpLeech', 'IncreaseProjectileDamage', 'SkillHealIncrease', 'SkillDurationIncrease',
-      'SkillRangeExpansion', 'MovementSpeed', 'Multistrike', 'IncreaseExpAmount', 'DodgeChance'
+      'SkillRangeExpansion', 'Multistrike', 'IncreaseExpAmount', 'DodgeChance'
     ]);
     
     const formatOption = (statName: string, modType: string, val: number) => {
@@ -287,6 +206,11 @@ export const getInherentOptions = (
       };
       
       const name = displayNames[statName] || statName;
+      
+      if (statName === "HpRegenPerSec") {
+        return `${name} +${(val / 100).toFixed(1).replace('.0', '')}`;
+      }
+      
       const isPercent = modType === "ADDITIVE" || modType === "MULTIPLICATIVE" || PERCENT_STATS.has(statName);
       
       if (isPercent) {
@@ -295,13 +219,13 @@ export const getInherentOptions = (
       return `${name} +${val.toLocaleString()}`;
     };
     
-    if (d.i1) {
+    if (d.i1 && d.i1[0] !== 0 && gearDetails.statMap[d.i1[0]] !== "NONE") {
       options.push(formatOption(gearDetails.statMap[d.i1[0]], gearDetails.modMap[d.i1[1]], d.i1[2]));
     }
-    if (d.i2) {
+    if (d.i2 && d.i2[0] !== 0 && gearDetails.statMap[d.i2[0]] !== "NONE") {
       options.push(formatOption(gearDetails.statMap[d.i2[0]], gearDetails.modMap[d.i2[1]], d.i2[2]));
     }
-    if (d.i3) {
+    if (d.i3 && d.i3[0] !== 0 && gearDetails.statMap[d.i3[0]] !== "NONE") {
       options.push(formatOption(gearDetails.statMap[d.i3[0]], gearDetails.modMap[d.i3[1]], d.i3[2]));
     }
     
@@ -363,6 +287,95 @@ export const getInherentOptions = (
   }
   
   return options;
+};
+
+export const getItemBaseStats = (
+  itemId: string | null,
+  gearType: string | null
+): { name: string; value: string }[] => {
+  if (!itemId || !gearType || !gearDetails.stats[itemId]) return [];
+  
+  const d = gearDetails.stats[itemId];
+  const b1 = d.b1;
+  if (!b1 || b1 === 0) return [];
+  
+  const stats: { name: string; value: string }[] = [];
+  const uGearType = gearType.toUpperCase();
+  
+  const physicalWeapons = ["SWORD", "BOW", "CROSSBOW", "AXE", "HATCHET"];
+  const magicalWeapons = ["STAFF", "SCEPTER", "ORB", "TOME"];
+  const armors = ["HELMET", "ARMOR", "GLOVES", "BOOTS", "SHIELD"];
+  
+  if (physicalWeapons.includes(uGearType)) {
+    stats.push({ name: "Attack Damage", value: String(b1) });
+    
+    let aps = "1.25";
+    if (uGearType === "BOW") aps = "1.65";
+    else if (uGearType === "CROSSBOW") aps = "1.35";
+    else if (["AXE", "HATCHET"].includes(uGearType)) aps = "1.05";
+    stats.push({ name: "Attack Per Second", value: aps });
+  } else if (magicalWeapons.includes(uGearType)) {
+    stats.push({ name: "Magic Damage", value: String(b1) });
+    
+    let aps = "1.15";
+    if (uGearType === "SCEPTER") aps = "1.20";
+    else if (uGearType === "ORB") aps = "1.30";
+    else if (uGearType === "TOME") aps = "1.10";
+    stats.push({ name: "Attack Per Second", value: aps });
+  } else if (armors.includes(uGearType)) {
+    stats.push({ name: "Armor", value: String(b1) });
+  }
+  
+  return stats;
+};
+
+const OPTION_TRANSLATIONS: Record<string, string> = {
+  "Increased Attack Damage": "Arttırılmış Saldırı Hasarı",
+  "Increased Magic Damage": "Arttırılmış Büyü Hasarı",
+  "Increased Defense": "Arttırılmış Savunma",
+  "Critical Chance": "Kritik Şansı",
+  "Critical Damage": "Kritik Hasarı",
+  "Attack Damage": "Saldırı Hasarı",
+  "Magic Damage": "Büyü Hasarı",
+  "Defense": "Savunma",
+  "Max HP": "Maks HP",
+  "Damage Reduction": "Hasar Azaltma",
+  "Cooldown Reduction": "Bekleme Süresi Azaltma",
+  "XP Gain": "TP Kazanımı",
+  "HP Regen Per Sec": "Saniye Başına HP Yenileme",
+  "Hp Regen Per Sec": "Saniye Başına HP Yenileme",
+  "Attack Speed": "Saldırı Hızı",
+  "Armor": "Zırh",
+  "All Elemental Resistance": "Tüm Element Dirençleri",
+  "Block Chance": "Bloklama Şansı",
+  "Hp Leech": "Can Çalma",
+  "Increase Projectile Damage": "Fırlatılan Nesne Hasarı Artışı",
+  "Skill Heal Increase": "Yetenek İyileştirme Artışı",
+  "Damage Absorption": "Hasar Emilimi",
+  "Skill Duration Increase": "Yetenek Süresi Artışı",
+  "Skill Range Expansion": "Yetenek Menzili Genişlemesi",
+  "Add HP Per Kill": "Öldürme Başına HP",
+  "Movement Speed": "Hareket Hızı",
+  "Add All Skill Level": "Tüm Yetenek Seviyelerine Ekle",
+  "Base Attack Count Reduction": "Temel Saldırı Sayısı Azaltma",
+  "Projectile Count": "Fırlatılan Nesne Sayısı",
+  "Multistrike": "Çoklu Vuruş",
+  "Increase Exp Amount": "TP Miktarı Artışı",
+  "Dodge Chance": "Kaçınma Şansı"
+};
+
+export const translateInherentOption = (opt: string, lang: string): string => {
+  let translated = opt;
+  if (lang === "tr") {
+    for (const [eng, tr] of Object.entries(OPTION_TRANSLATIONS)) {
+      if (opt.includes(eng)) {
+        translated = opt.replace(eng, tr);
+        break;
+      }
+    }
+    translated = translated.replace(".", ",");
+  }
+  return translated;
 };
 
 const WIKI_TO_LOCAL_MOD_MAP: Record<string, string> = {

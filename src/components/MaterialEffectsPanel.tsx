@@ -161,10 +161,11 @@ export const MaterialEffectsPanel: React.FC<MaterialEffectsPanelProps> = ({
 
   // Helper to translate card properties / labels
   const translateSlotName = (slotName: string): string => {
-    if (slotName.toLowerCase() === "weapon") return t("slotWeapon");
-    if (slotName.toLowerCase() === "armor") return t("slotArmor");
-    if (slotName.toLowerCase() === "accessory") return t("slotAccessory");
-    if (slotName.toLowerCase() === "all slots") return t("slotAll");
+    const lower = slotName.toLowerCase();
+    if (lower === "weapon" || lower === "slotweapon") return t("slotWeapon");
+    if (lower === "armor" || lower === "slotarmor") return t("slotArmor");
+    if (lower === "accessory" || lower === "slotaccessory") return t("slotAccessory");
+    if (lower === "all slots" || lower === "all" || lower === "slotall") return t("slotAll");
     return slotName;
   };
 

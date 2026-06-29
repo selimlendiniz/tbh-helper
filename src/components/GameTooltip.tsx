@@ -1,7 +1,7 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { TbhItem } from "../types";
-import { getClassRestriction, getSlotLimits, getInherentStats, getInherentOptions, formatEnchantOrSlot, getTierColor } from "../utils";
+import { getClassRestriction, getSlotLimits, getInherentOptions, formatEnchantOrSlot, getTierColor, getItemBaseStats, translateInherentOption, formatDecimal, isUnobtainableItem, getUniqueModKeyById } from "../utils";
 import { GRADE_MAP, GRADE_COLORS, GRADE_RANK } from "../constants";
 import "../styles/tooltip.css";
 
@@ -146,7 +146,7 @@ interface GameTooltipProps {
 }
 
 export const GameTooltip: React.FC<GameTooltipProps> = ({ hoveredItem, tooltipPos, activeTab }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState({ x: -9999, y: -9999 });
 
@@ -181,7 +181,10 @@ export const GameTooltip: React.FC<GameTooltipProps> = ({ hoveredItem, tooltipPo
   const gradeColor = hoveredItem.gradeColor || GRADE_COLORS[grade] || GRADE_COLORS.Unknown;
 
   const englishName = tbhData.names[hoveredItem.lookupKey] || null;
-  const uniqueModKey = getUniqueModKey(englishName, grade);
+  const dbUniqueModKey = getUniqueModKeyById(hoveredItem.lookupKey);
+  const uniqueModKey = (dbUniqueModKey && dbUniqueModKey !== "none")
+    ? dbUniqueModKey
+    : getUniqueModKey(englishName, grade);
   const hasUniqueMod = !!uniqueModKey;
 
   const activeEnchants = hoveredItem.enchantData
@@ -221,9 +224,9 @@ export const GameTooltip: React.FC<GameTooltipProps> = ({ hoveredItem, tooltipPo
     remainingEnchants = activeEnchants;
   }
 
-  const inherentStats = getInherentStats(gearType, level, grade);
-  const inherentOptions = getInherentOptions(gearType, level, grade);
+  const inherentOptions = getInherentOptions(gearType, level, grade, hoveredItem.lookupKey);
   const hasInherentOptions = inherentOptions.length > 0;
+  const baseStats = getItemBaseStats(hoveredItem.lookupKey, gearType);
 
   const classRestriction = getClassRestriction(gearType);
   const isMaterial = hoveredItem.isMaterial || props.tp === "MATERIAL";
@@ -259,13 +262,20 @@ export const GameTooltip: React.FC<GameTooltipProps> = ({ hoveredItem, tooltipPo
           )}
         </div>
         <div className="game-tooltip-main-details">
-          <div className="game-tooltip-grade" style={{ color: gradeColor }}>
-            {grade} Grade
+          <div className="game-tooltip-grade" style={{ color: gradeColor, display: "flex", alignItems: "center", gap: "6px" }}>
+            <span>{t("gradeText", { grade })}</span>
+            {isUnobtainableItem(hoveredItem.lookupKey) && (
+              <span style={{ backgroundColor: "#ef4444", color: "#fff", padding: "1px 4px", borderRadius: "3px", fontSize: "9px", fontWeight: "bold" }}>
+                {t("unobtainableTag", { defaultValue: "UNOBTAINABLE" })}
+              </span>
+            )}
           </div>
-          {inherentStats.map((stat, idx) => (
+          {baseStats.map((stat, idx) => (
             <div key={idx} className="game-tooltip-stat-row">
-              <span className="stat-label">{stat.name}</span>
-              <span className="stat-value">{stat.value}</span>
+              <span className="stat-label">
+                {t(stat.name)}
+              </span>
+              <span className="stat-value">{formatDecimal(stat.value)}</span>
             </div>
           ))}
         </div>
@@ -276,11 +286,11 @@ export const GameTooltip: React.FC<GameTooltipProps> = ({ hoveredItem, tooltipPo
         <>
           <div className="game-tooltip-divider" />
           <div className="game-tooltip-section">
-            <div className="game-section-title">Inherent Stats</div>
+            <div className="game-section-title">{t("Inherent Stats")}</div>
             {inherentOptions.map((opt, idx) => (
               <div key={idx} className="game-tooltip-option-row">
                 <span className="game-bullet">[-]</span>
-                <span className="game-option-text">{opt}</span>
+                <span className="game-option-text">{translateInherentOption(opt, i18n.language)}</span>
               </div>
             ))}
           </div>
