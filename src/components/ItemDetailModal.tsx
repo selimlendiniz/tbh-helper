@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
-import { fetchUrlWithRetry, isUnobtainableItem, getInherentOptions, getUniqueModKeyById, getItemBaseStats, translateInherentOption, formatDecimal, formatPrice } from "../utils";
+import { isUnobtainableItem, getInherentOptions, getUniqueModKeyById, getItemBaseStats, translateInherentOption, formatDecimal, formatPrice } from "../utils";
 import { fetchMarketDetail, PricePoint, ActiveListing } from "../services/marketDataService";
 import { TbhItem, WishlistItem } from "../types";
 // @ts-ignore
