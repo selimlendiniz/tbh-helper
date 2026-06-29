@@ -435,6 +435,8 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
     setHoverPos({ x: closest.x, y: closest.y });
   };
 
+  const isHoveredLive = hoveredPoint !== null && filteredHistory.length > 0 && filteredHistory[filteredHistory.length - 1] === hoveredPoint;
+
   const handleMouseLeave = () => {
     setHoveredPoint(null);
   };
@@ -674,24 +676,13 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
 
                     {/* Live data pulsing dot at latest point */}
                     {livePricePoints.length > 0 && points.length > 0 && (
-                      <g>
-                        <circle 
-                          cx={points[points.length - 1].x} 
-                          cy={points[points.length - 1].y} 
-                          r="6" 
-                          fill="#34d399" 
-                          className="live-chart-dot"
-                        />
-                        <circle 
-                          cx={points[points.length - 1].x} 
-                          cy={points[points.length - 1].y} 
-                          r="10" 
-                          fill="none" 
-                          stroke="#34d399" 
-                          strokeWidth="2"
-                          className="live-chart-ring"
-                        />
-                      </g>
+                      <circle 
+                        cx={points[points.length - 1].x} 
+                        cy={points[points.length - 1].y} 
+                        r="4" 
+                        fill="#34d399" 
+                        className="live-chart-dot"
+                      />
                     )}
 
 
@@ -722,7 +713,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
                   {/* Floating Tooltip inside container */}
                   {hoveredPoint && (
                     <div 
-                      className="chart-hover-tooltip"
+                      className={`chart-hover-tooltip${isHoveredLive ? " live" : ""}`}
                       style={{ 
                         left: `${(hoverPos.x / chartWidth) * 100}%`,
                         top: `${(hoverPos.y / chartHeight) * 100}%`,

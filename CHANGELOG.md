@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.0.5] - 2026-06-29
+
+### Added
+
+- **Live orderbook polling**: `fetchOrderBook()` in `marketDataService.ts` — fetches Steam Market `/market/orderbook` JSON API every 5 seconds
+- **Orderbook UI**: buy/sell grid replaces "Cheapest Active Listings" in right column; summary strip with Highest Buy / Lowest Sell / Spread + 🟢 LIVE badge
+- **Live price header**: "Live Price" badge + "Last Known Price" reference in modal header
+- **Live chart points**: `livePricePoints` state accumulates up to 60 data points, merged with SSR history for graph display
+- **Pulsing green dot** on latest chart point (`liveChartPulse` CSS animation)
+- **Green tooltip**: border and price/volume values turn green when hovering a live data point
+- **`fetch_url` header support** in Rust backend: `headers: Option<HashMap<String, String>>`
+- **`fetchUrlWithRetry` header parameter**: `headers?: Record<string, string>`
+- **`updateItemPrice` action** in `useSaveData` hook — writes live price back to parent store
+- **Locale keys** for orderbook UI: `livePrice`, `highestBuy`, `lowestSell`, `spread`, `buyOrders`, `sellOrders`, `orderbookUnavailable`, `loadingOrderbook`
+- **`fetchStartedRef` guard** to prevent duplicate initial fetches in React StrictMode
+
+### Changed
+
+- **`ItemDetailModal`**: initial load uses `Promise.all([fetchMarketDetail, fetchOrderBook])` in parallel; orderbook polling with `setInterval(5000)` and `clearInterval` cleanup
+- **`fetchMarketDetail`** simplified: SSR listing parsing removed (orderbook API replaces it)
+- **`modal-header-section` padding-right**: 36px to avoid overlap with close (X) button
+
+### Fixed
+
+- **Duplicate initial fetch prevention**: `fetchStartedRef` guards against StrictMode / parent re-render
+- **`onPriceUpdate` dependency-trigger prevention**: `useRef` instead of dependency array avoids unnecessary effect re-runs
+
 ## [0.0.4] - 2026-06-29
 
 ### Added

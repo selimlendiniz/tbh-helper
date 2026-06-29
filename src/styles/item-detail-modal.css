@@ -258,18 +258,9 @@
   animation: liveChartPulse 1.5s ease-in-out infinite;
 }
 
-.live-chart-ring {
-  animation: liveChartRing 1.5s ease-in-out infinite;
-}
-
 @keyframes liveChartPulse {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes liveChartRing {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0; transform: scale(1.5); }
+  50% { opacity: 0.4; }
 }
 
 /* Floating Chart Tooltip */
@@ -289,6 +280,14 @@
   flex-direction: column;
   gap: 3px;
   transition: top 0.05s ease, left 0.05s ease;
+}
+
+.chart-hover-tooltip.live {
+  border-color: #34d399;
+}
+
+.chart-hover-tooltip.live .tooltip-stat .val {
+  color: #34d399;
 }
 
 .chart-hover-tooltip .tooltip-date {
