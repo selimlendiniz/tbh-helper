@@ -1,5 +1,5 @@
 export const PriceFetchConfig = {
-  pageSize: 100,
+  pageSize: 10,
   maxRetries: 3,
   retryBaseDelayMs: 3000,
   guestModeSpreadDurationMs: 600_000,
