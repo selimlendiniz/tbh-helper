@@ -14,6 +14,7 @@ import { ItemDetailModal } from "./components/ItemDetailModal";
 import { WishlistPanel } from "./components/WishlistPanel";
 import { NotificationStack } from "./components/NotificationStack";
 import { UpdateBanner } from "./components/UpdateBanner";
+import { MaterialEffectsPanel } from "./components/MaterialEffectsPanel";
 import { TbhItem } from "./types";
 import "./App.css";
 
@@ -75,6 +76,8 @@ export default function App() {
     setSortBy,
     hideNoPriceItems,
     setHideNoPriceItems,
+    showUnobtainable,
+    setShowUnobtainable,
     statusMessage,
     isLive,
     loading,
@@ -138,6 +141,7 @@ export default function App() {
       return (
         <MarketExplorer
           items={marketExplorerItems}
+          showUnobtainable={showUnobtainable}
           onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -145,6 +149,17 @@ export default function App() {
           searchingSteam={searchingSteam}
         />
       );
+    }
+
+    if (activeTab === "materials") {
+      return (
+        <MaterialEffectsPanel
+          parsedSave={parsedSave}
+          onMouseEnter={handleMouseEnter}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        />
+      );  
     }
 
     if (activeTab === "wishlist") {
@@ -218,6 +233,8 @@ export default function App() {
         setSortBy={setSortBy}
         hideNoPriceItems={hideNoPriceItems}
         setHideNoPriceItems={setHideNoPriceItems}
+        showUnobtainable={showUnobtainable}
+        setShowUnobtainable={setShowUnobtainable}
         searchingSteam={searchingSteam}
       />
 
@@ -225,7 +242,7 @@ export default function App() {
         style={{
           flexGrow: 1,
           minHeight: 0,
-          overflow: (activeTab === "market" || activeTab === "all" || activeTab === "stash" || activeTab === "inventory" || activeTab === "wishlist") ? "hidden" : "visible",
+          overflow: (activeTab === "market" || activeTab === "all" || activeTab === "stash" || activeTab === "inventory" || activeTab === "wishlist" || activeTab === "materials") ? "hidden" : "visible",
           display: "flex",
           flexDirection: "column",
         }}

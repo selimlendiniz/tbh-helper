@@ -8,6 +8,7 @@ import { matchSearchQuery } from "../utils";
 import { PriceManager } from "../services/price/PriceManager";
 import { SteamMarketProvider } from "../services/price/SteamMarketProvider";
 import i18n from "../i18n";
+import { isUnobtainableItem } from "../utils";
 
 function translateStatusMessage(msg: string, lang: "en" | "tr"): string {
   if (lang === "en") return msg;
@@ -105,6 +106,7 @@ export function useSaveData() {
   const [onlyUniqueFilter, setOnlyUniqueFilter] = useState(false);
   const [sortBy, setSortBy] = useState<SortType>("value");
   const [hideNoPriceItems, setHideNoPriceItems] = useState(false);
+  const [showUnobtainable, setShowUnobtainable] = useState(false);
   const [steamSearchResults, setSteamSearchResults] = useState<MarketItem[]>([]);
   const [searchingSteam, setSearchingSteam] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Initializing...");
@@ -1145,6 +1147,10 @@ export function useSaveData() {
       });
     }
     
+    if (!showUnobtainable) {
+      list = list.filter((item) => !isUnobtainableItem(item.lookupKey));
+    }
+    
     list.sort((a, b) => {
       if (sortBy === "value") {
         const priceA = a.price || 0;
@@ -1167,7 +1173,7 @@ export function useSaveData() {
     });
     
     return list;
-  }, [parsedSave, activeTab, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy]);
+  }, [parsedSave, activeTab, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy, showUnobtainable]);
 
   // Market Explorer items
   const marketExplorerItems = useMemo<MarketItem[]>(() => {
@@ -1241,6 +1247,9 @@ export function useSaveData() {
       });
     }
     
+    if (!showUnobtainable) {
+      filtered = filtered.filter((item) => !isUnobtainableItem(item.lookupKey));
+    }
     if (steamSearchResults.length > 0) {
       const existingHashes = new Set(filtered.map((i) => i.marketHashName));
       for (const steamItem of steamSearchResults) {
@@ -1267,7 +1276,7 @@ export function useSaveData() {
     });
     
     return filtered;
-  }, [prices, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy, hideNoPriceItems, language, steamSearchResults]);
+  }, [prices, searchQuery, gradeFilter, typeFilter, onlyUniqueFilter, sortBy, hideNoPriceItems, language, showUnobtainable, steamSearchResults]);
 
   // Analytics Computations
   const analyticsData = useMemo<AnalyticsData | null>(() => {
@@ -1352,6 +1361,8 @@ export function useSaveData() {
     setSortBy,
     hideNoPriceItems,
     setHideNoPriceItems,
+    showUnobtainable,
+    setShowUnobtainable,
     statusMessage: translateStatusMessage(statusMessage, language),
     isLive,
     loading,
