@@ -162,6 +162,31 @@ export const getSlotLimits = (grade: string, gearType: string | null) => {
   }
 };
 
+export interface SearchableItem {
+  name: string;
+  marketHashName: string;
+  gearType: string | null;
+  grade: string;
+  level: number | null;
+}
+
+export function matchSearchQuery(item: SearchableItem, query: string): boolean {
+  if (!query.trim()) return true;
+  const tokens = query.trim().toLowerCase().split(/\s+/);
+  return tokens.every((token) => {
+    const isNumeric = /^\d+$/.test(token);
+    const nameMatch = item.name.toLowerCase().includes(token);
+    const engMatch = item.marketHashName.toLowerCase().includes(token);
+    const gearMatch = item.gearType !== null && item.gearType.toLowerCase() === token;
+    const gradeMatch = item.grade.toLowerCase() === token;
+    if (isNumeric) {
+      const levelMatch = item.level !== null && item.level.toString() === token;
+      return levelMatch || nameMatch || engMatch;
+    }
+    return nameMatch || engMatch || gearMatch || gradeMatch;
+  });
+}
+
 export const getInherentStats = (gearType: string | null, level: number | null, grade: string) => {
   if (!gearType || !level) return [];
   

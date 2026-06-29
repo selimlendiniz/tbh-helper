@@ -4,6 +4,7 @@ import { listen } from "@tauri-apps/api/event";
 import { isPermissionGranted, requestPermission, sendNotification } from "@tauri-apps/plugin-notification";
 import { TbhItem, ParsedSave, MarketItem, AnalyticsData, TabType, SortType, PortfolioPoint, WishlistItem, InAppNotification } from "../types";
 import { GRADE_MAP, GRADE_COLORS, HERO_CLASS_NAMES, GRADE_RANK } from "../constants";
+import { matchSearchQuery } from "../utils";
 import { PriceManager } from "../services/price/PriceManager";
 import { SteamMarketProvider } from "../services/price/SteamMarketProvider";
 import i18n from "../i18n";
@@ -1080,21 +1081,7 @@ export function useSaveData() {
     }
     
     if (searchQuery.trim()) {
-      const tokens = searchQuery.trim().toLowerCase().split(/\s+/);
-      list = list.filter((item) => {
-        return tokens.every((token) => {
-          const isNumeric = /^\d+$/.test(token);
-          const nameMatch = item.name.toLowerCase().includes(token);
-          const engMatch = item.marketHashName.toLowerCase().includes(token);
-          const gearMatch = item.gearType !== null && item.gearType.toLowerCase() === token;
-          const gradeMatch = item.grade.toLowerCase() === token;
-          if (isNumeric) {
-            const levelMatch = item.level !== null && item.level.toString() === token;
-            return levelMatch || nameMatch || engMatch;
-          }
-          return nameMatch || engMatch || gearMatch || gradeMatch;
-        });
-      });
+      list = list.filter((item) => matchSearchQuery(item, searchQuery));
     }
     
     if (gradeFilter !== "all") {
@@ -1180,21 +1167,7 @@ export function useSaveData() {
       filtered = filtered.filter((item) => item.price !== null);
     }
     if (searchQuery.trim()) {
-      const tokens = searchQuery.trim().toLowerCase().split(/\s+/);
-      filtered = filtered.filter((item) => {
-        return tokens.every((token) => {
-          const isNumeric = /^\d+$/.test(token);
-          const nameMatch = item.name.toLowerCase().includes(token);
-          const engMatch = item.marketHashName.toLowerCase().includes(token);
-          const gearMatch = item.gearType !== null && item.gearType.toLowerCase() === token;
-          const gradeMatch = item.grade.toLowerCase() === token;
-          if (isNumeric) {
-            const levelMatch = item.level !== null && item.level.toString() === token;
-            return levelMatch || nameMatch || engMatch;
-          }
-          return nameMatch || engMatch || gearMatch || gradeMatch;
-        });
-      });
+      filtered = filtered.filter((item) => matchSearchQuery(item, searchQuery));
     }
     
     if (gradeFilter !== "all") {
