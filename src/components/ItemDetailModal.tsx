@@ -146,6 +146,9 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
 
   const isWishlisted = !!wishlistedItem;
 
+  const onPriceUpdateRef = useRef(onPriceUpdate);
+  onPriceUpdateRef.current = onPriceUpdate;
+
   // Initialize form fields when item changes
   useEffect(() => {
     if (item) {
@@ -212,7 +215,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
               const summary = summarizeOrderBook(data);
               setOrderBook(summary);
               setOrderBookUpdatedAt(Date.now());
-              if (onPriceUpdate) onPriceUpdate(summary.lowestSellPrice);
+              if (onPriceUpdateRef.current) onPriceUpdateRef.current(summary.lowestSellPrice);
             }
           }).catch((err) => {
             console.error("Failed to fetch orderbook:", err);
@@ -242,7 +245,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
         const summary = summarizeOrderBook(data);
         setOrderBook(summary);
         setOrderBookUpdatedAt(Date.now());
-        if (onPriceUpdate) onPriceUpdate(summary.lowestSellPrice);
+        if (onPriceUpdateRef.current) onPriceUpdateRef.current(summary.lowestSellPrice);
         setOrderBookError(null);
         setLivePricePoints((prev) => {
           const now = new Date();
@@ -269,7 +272,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
       active = false;
       clearInterval(interval);
     };
-  }, [item, onPriceUpdate]);
+  }, [item]);
 
   // Dynamic filter history computation (SSR history + live price points)
   const combinedHistory = useMemo(() => {
