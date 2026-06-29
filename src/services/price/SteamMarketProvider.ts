@@ -46,6 +46,18 @@ function inferGradeFromColor(color: string): string {
   return STEAM_NAME_COLOR_TO_GRADE[color] || "Unknown";
 }
 
+function parseSteamType(typeStr: string): { gearType: string | null; level: number | null } {
+  if (!typeStr) return { gearType: null, level: null };
+  const match = typeStr.match(/^(.+?)\s*-\s*Lv\.\s*(\d+)$/);
+  if (match) {
+    return {
+      gearType: match[1].trim().toUpperCase(),
+      level: parseInt(match[2], 10),
+    };
+  }
+  return { gearType: null, level: null };
+}
+
 
 function calcTotalPages(totalCount: number): number {
   return Math.ceil(totalCount / PriceFetchConfig.pageSize);
@@ -88,19 +100,21 @@ export class SteamMarketProvider implements PriceProvider {
         const marketHashName = desc.market_hash_name;
         const grade = inferGradeFromHash(marketHashName);
         const finalGrade = grade !== "Unknown" ? grade : inferGradeFromColor(desc.name_color);
+        const { gearType, level } = parseSteamType(desc.type);
+        const isMaterial = gearType === null;
 
         items.push({
           name: desc.name || marketHashName,
           grade: finalGrade,
           gradeColor: GRADE_COLORS[finalGrade] || GRADE_COLORS.Unknown,
-          isMaterial: false,
+          isMaterial,
           iconUrl: desc.icon_url ? `${STEAM_ICON_BASE}${desc.icon_url}` : null,
           marketHashName,
           price: parseSteamPrice(result.strMinSellSubtotal),
           itemKey: marketHashName,
           lookupKey: marketHashName,
-          gearType: null,
-          level: null,
+          gearType,
+          level,
           updatedAt: now,
         });
       }
