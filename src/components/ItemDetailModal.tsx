@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { isUnobtainableItem, getInherentOptions, getUniqueModKeyById, getItemBaseStats, translateInherentOption, formatDecimal, formatPrice } from "../utils";
-import { fetchMarketDetail, fetchOrderBook, summarizeOrderBook, PricePoint, ActiveListing, OrderBookSummary } from "../services/marketDataService";
+import { fetchMarketDetail, fetchOrderBook, summarizeOrderBook, PricePoint, OrderBookSummary } from "../services/marketDataService";
 import { TbhItem, WishlistItem } from "../types";
 // @ts-ignore
 import materialEffectsRaw from "../constants/material_effects.json";
