@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.0.5] - 2026-06-29
+## [0.0.4] - 2026-06-29
 
 ### Added
 
@@ -15,22 +15,6 @@
 - **`updateItemPrice` action** in `useSaveData` hook — writes live price back to parent store
 - **Locale keys** for orderbook UI: `livePrice`, `highestBuy`, `lowestSell`, `spread`, `buyOrders`, `sellOrders`, `orderbookUnavailable`, `loadingOrderbook`
 - **`fetchStartedRef` guard** to prevent duplicate initial fetches in React StrictMode
-
-### Changed
-
-- **`ItemDetailModal`**: initial load uses `Promise.all([fetchMarketDetail, fetchOrderBook])` in parallel; orderbook polling with `setInterval(5000)` and `clearInterval` cleanup
-- **`fetchMarketDetail`** simplified: SSR listing parsing removed (orderbook API replaces it)
-- **`modal-header-section` padding-right**: 36px to avoid overlap with close (X) button
-
-### Fixed
-
-- **Duplicate initial fetch prevention**: `fetchStartedRef` guards against StrictMode / parent re-render
-- **`onPriceUpdate` dependency-trigger prevention**: `useRef` instead of dependency array avoids unnecessary effect re-runs
-
-## [0.0.4] - 2026-06-29
-
-### Added
-
 - **`fetchUrlPostWithRetry` utility**: POST request with exponential backoff retry, uses Tauri `fetch_url_post` command
 - **Steam search fallback**: when local item list has no results, searches Steam Market API via `SteamMarketProvider.searchItems()`
 - **Multi-token search**: search query is split into tokens; numeric tokens match level/name/marketHashName, text tokens match name (TR/EN)/marketHashName/gearType/grade
@@ -46,6 +30,9 @@
 
 ### Changed
 
+- **`ItemDetailModal`**: initial load uses `Promise.all([fetchMarketDetail, fetchOrderBook])` in parallel; orderbook polling with `setInterval(5000)` and `clearInterval` cleanup
+- **`fetchMarketDetail`** simplified: SSR listing parsing removed (orderbook API replaces it)
+- **`modal-header-section` padding-right**: 36px to avoid overlap with close (X) button
 - **SteamMarketProvider**: `parseSteamPrice()` removed, uses shared `parsePriceString()` + `centsToDollars()` instead; all `sell_price / 100` → `centsToDollars(item.sell_price)`
 - **`ItemDetailModal` SSR parsing extracted**: inline regex HTML parsing moved to `marketDataService.ts`, component now calls `fetchMarketDetail()`
 - **`formatPrice` usage**: local `const formatPrice` removed, uses shared `formatPrice` from utils (identical behavior)
@@ -53,7 +40,8 @@
 
 ### Fixed
 
-- No bug fixes in this release
+- **Duplicate initial fetch prevention**: `fetchStartedRef` guards against StrictMode / parent re-render
+- **`onPriceUpdate` dependency-trigger prevention**: `useRef` instead of dependency array avoids unnecessary effect re-runs
 
 ## [0.0.3] - 2026-06-29
 
