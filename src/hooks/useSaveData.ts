@@ -1411,5 +1411,11 @@ export function useSaveData() {
     sendTelegramMessage,
     setCloseToTray,
     setLanguage,
+    updateItemPrice: (marketHashName: string, price: number) => {
+      setPrices((prev) => ({
+        ...prev,
+        [marketHashName]: { price, updatedAt: Date.now() },
+      }));
+    },
   };
 }

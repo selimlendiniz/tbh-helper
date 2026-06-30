@@ -1,6 +1,6 @@
 {
   "productName": "TBH Helper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "identifier": "com.tbhhelper.app",
   "build": {
     "beforeDevCommand": "npm run dev",

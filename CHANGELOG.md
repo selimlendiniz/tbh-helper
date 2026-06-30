@@ -4,6 +4,17 @@
 
 ### Added
 
+- **Live orderbook polling**: `fetchOrderBook()` in `marketDataService.ts` — fetches Steam Market `/market/orderbook` JSON API every 5 seconds
+- **Orderbook UI**: buy/sell grid replaces "Cheapest Active Listings" in right column; summary strip with Highest Buy / Lowest Sell / Spread + 🟢 LIVE badge
+- **Live price header**: "Live Price" badge + "Last Known Price" reference in modal header
+- **Live chart points**: `livePricePoints` state accumulates up to 60 data points, merged with SSR history for graph display
+- **Pulsing green dot** on latest chart point (`liveChartPulse` CSS animation)
+- **Green tooltip**: border and price/volume values turn green when hovering a live data point
+- **`fetch_url` header support** in Rust backend: `headers: Option<HashMap<String, String>>`
+- **`fetchUrlWithRetry` header parameter**: `headers?: Record<string, string>`
+- **`updateItemPrice` action** in `useSaveData` hook — writes live price back to parent store
+- **Locale keys** for orderbook UI: `livePrice`, `highestBuy`, `lowestSell`, `spread`, `buyOrders`, `sellOrders`, `orderbookUnavailable`, `loadingOrderbook`
+- **`fetchStartedRef` guard** to prevent duplicate initial fetches in React StrictMode
 - **`fetchUrlPostWithRetry` utility**: POST request with exponential backoff retry, uses Tauri `fetch_url_post` command
 - **Steam search fallback**: when local item list has no results, searches Steam Market API via `SteamMarketProvider.searchItems()`
 - **Multi-token search**: search query is split into tokens; numeric tokens match level/name/marketHashName, text tokens match name (TR/EN)/marketHashName/gearType/grade
@@ -19,6 +30,9 @@
 
 ### Changed
 
+- **`ItemDetailModal`**: initial load uses `Promise.all([fetchMarketDetail, fetchOrderBook])` in parallel; orderbook polling with `setInterval(5000)` and `clearInterval` cleanup
+- **`fetchMarketDetail`** simplified: SSR listing parsing removed (orderbook API replaces it)
+- **`modal-header-section` padding-right**: 36px to avoid overlap with close (X) button
 - **SteamMarketProvider**: `parseSteamPrice()` removed, uses shared `parsePriceString()` + `centsToDollars()` instead; all `sell_price / 100` → `centsToDollars(item.sell_price)`
 - **`ItemDetailModal` SSR parsing extracted**: inline regex HTML parsing moved to `marketDataService.ts`, component now calls `fetchMarketDetail()`
 - **`formatPrice` usage**: local `const formatPrice` removed, uses shared `formatPrice` from utils (identical behavior)
@@ -26,7 +40,8 @@
 
 ### Fixed
 
-- No bug fixes in this release
+- **Duplicate initial fetch prevention**: `fetchStartedRef` guards against StrictMode / parent re-render
+- **`onPriceUpdate` dependency-trigger prevention**: `useRef` instead of dependency array avoids unnecessary effect re-runs
 
 ## [0.0.3] - 2026-06-29
 

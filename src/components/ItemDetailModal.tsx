@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { isUnobtainableItem, getInherentOptions, getUniqueModKeyById, getItemBaseStats, translateInherentOption, formatDecimal, formatPrice } from "../utils";
-import { fetchMarketDetail, PricePoint, ActiveListing } from "../services/marketDataService";
+import { fetchMarketDetail, fetchOrderBook, summarizeOrderBook, PricePoint, OrderBookSummary } from "../services/marketDataService";
 import { TbhItem, WishlistItem } from "../types";
 // @ts-ignore
 import materialEffectsRaw from "../constants/material_effects.json";
@@ -82,6 +82,7 @@ interface ItemDetailModalProps {
   wishlist?: WishlistItem[];
   onAddToWishlist?: (item: WishlistItem) => void;
   onRemoveFromWishlist?: (itemKey: string) => void;
+  onPriceUpdate?: (price: number) => void;
 }
 
 export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ 
@@ -89,7 +90,8 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
   onClose,
   wishlist = [],
   onAddToWishlist,
-  onRemoveFromWishlist
+  onRemoveFromWishlist,
+  onPriceUpdate
 }) => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || "en";
@@ -129,7 +131,10 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<PricePoint[]>([]);
-  const [listings, setListings] = useState<ActiveListing[]>([]);
+  const [livePricePoints, setLivePricePoints] = useState<PricePoint[]>([]);
+  const [orderBook, setOrderBook] = useState<OrderBookSummary | null>(null);
+  const [orderBookUpdatedAt, setOrderBookUpdatedAt] = useState<number | null>(null);
+  const [orderBookError, setOrderBookError] = useState<string | null>(null);
 
   const [targetPrice, setTargetPrice] = useState<number>(0);
   const [alertType, setAlertType] = useState<"below" | "above">("below");
@@ -140,6 +145,9 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
   }, [item, wishlist]);
 
   const isWishlisted = !!wishlistedItem;
+
+  const onPriceUpdateRef = useRef(onPriceUpdate);
+  onPriceUpdateRef.current = onPriceUpdate;
 
   // Initialize form fields when item changes
   useEffect(() => {
@@ -158,6 +166,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
   const [activeFilter, setActiveFilter] = useState<"all" | "7d" | "3d" | "1d">("all");
 
   const chartRef = useRef<SVGSVGElement>(null);
+  const fetchStartedRef = useRef(false);
 
   const handleOpenInSteamApp = () => {
     const url = `steam://openurl/https://steamcommunity.com/market/listings/3678970/${encodeURIComponent(item.marketHashName)}`;
@@ -189,18 +198,38 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
   };
 
   useEffect(() => {
+    if (fetchStartedRef.current) return;
+    fetchStartedRef.current = true;
+
     let active = true;
     setLoading(true);
     setError(null);
     setHistory([]);
-    setListings([]);
+    setLivePricePoints([]);
+    setOrderBook(null);
+    setOrderBookUpdatedAt(null);
+    setOrderBookError(null);
 
-    (async () => {
+    const fetchAll = async () => {
       try {
-        const result = await fetchMarketDetail(item.marketHashName);
+        const [detailResult] = await Promise.all([
+          fetchMarketDetail(item.marketHashName),
+          fetchOrderBook(item.marketHashName).then((data) => {
+            if (active) {
+              const summary = summarizeOrderBook(data);
+              setOrderBook(summary);
+              setOrderBookUpdatedAt(Date.now());
+              if (onPriceUpdateRef.current) onPriceUpdateRef.current(summary.lowestSellPrice);
+            }
+          }).catch((err) => {
+            console.error("Failed to fetch orderbook:", err);
+            if (active) {
+              setOrderBookError("Orderbook unavailable");
+            }
+          }),
+        ]);
         if (active) {
-          setHistory(result.history);
-          setListings(result.listings);
+          setHistory(detailResult.history);
           setLoading(false);
         }
       } catch (err: any) {
@@ -210,37 +239,76 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
           setLoading(false);
         }
       }
-    })();
+    };
+
+    fetchAll();
+
+    const interval = setInterval(() => {
+      fetchOrderBook(item.marketHashName).then((data) => {
+        if (!active) return;
+        const summary = summarizeOrderBook(data);
+        setOrderBook(summary);
+        setOrderBookUpdatedAt(Date.now());
+        if (onPriceUpdateRef.current) onPriceUpdateRef.current(summary.lowestSellPrice);
+        setOrderBookError(null);
+        setLivePricePoints((prev) => {
+          const now = new Date();
+          const point: PricePoint = {
+            date: now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+            fullDate: now.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }),
+            price: summary.lowestSellPrice,
+            volume: summary.totalSellOrders,
+            timestamp: Date.now(),
+          };
+          const merged = [...prev, point];
+          if (merged.length > 60) merged.splice(0, merged.length - 60);
+          return merged;
+        });
+      }).catch((err) => {
+        console.error("Orderbook poll failed:", err);
+        if (active) {
+          setOrderBookError("Orderbook poll failed");
+        }
+      });
+    }, 5000);
 
     return () => {
+      fetchStartedRef.current = false;
       active = false;
+      clearInterval(interval);
     };
   }, [item]);
 
-  // Dynamic filter history computation
+  // Dynamic filter history computation (SSR history + live price points)
+  const combinedHistory = useMemo(() => {
+    if (livePricePoints.length === 0) return history;
+    return [...history, ...livePricePoints];
+  }, [history, livePricePoints]);
+
   const filteredHistory = useMemo(() => {
-    if (history.length === 0) return [];
+    const base = combinedHistory;
+    if (base.length === 0) return [];
     
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
     
     switch (activeFilter) {
       case "7d": {
-        const maxTime = Math.max(...history.map(p => p.timestamp));
-        return history.filter(p => p.timestamp >= maxTime - 7 * MS_PER_DAY);
+        const maxTime = Math.max(...base.map(p => p.timestamp));
+        return base.filter(p => p.timestamp >= maxTime - 7 * MS_PER_DAY);
       }
       case "3d": {
-        const maxTime3 = Math.max(...history.map(p => p.timestamp));
-        return history.filter(p => p.timestamp >= maxTime3 - 3 * MS_PER_DAY);
+        const maxTime3 = Math.max(...base.map(p => p.timestamp));
+        return base.filter(p => p.timestamp >= maxTime3 - 3 * MS_PER_DAY);
       }
       case "1d": {
-        const maxTime1 = Math.max(...history.map(p => p.timestamp));
-        return history.filter(p => p.timestamp >= maxTime1 - 1 * MS_PER_DAY);
+        const maxTime1 = Math.max(...base.map(p => p.timestamp));
+        return base.filter(p => p.timestamp >= maxTime1 - 1 * MS_PER_DAY);
       }
       case "all":
       default:
-        return history;
+        return base;
     }
-  }, [history, activeFilter]);
+  }, [combinedHistory, activeFilter]);
 
   // Stats calculation
   const chartStats = useMemo(() => {
@@ -367,6 +435,8 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
     setHoverPos({ x: closest.x, y: closest.y });
   };
 
+  const isHoveredLive = hoveredPoint !== null && filteredHistory.length > 0 && filteredHistory[filteredHistory.length - 1] === hoveredPoint;
+
   const handleMouseLeave = () => {
     setHoveredPoint(null);
   };
@@ -423,14 +493,36 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
             </div>
           </div>
           <div className="modal-item-pricing-header" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-            <span className="price-label">{t("lastKnownPrice")}</span>
-            <span className="price-value gold">
-              {item.price !== null ? formatPrice(item.price) : t("priceNotFound")}
-            </span>
-            {item.updatedAt && (
-              <span style={{ fontSize: "10px", color: "var(--text-dark)", marginTop: "2px" }}>
-                {t("updated")}: {new Date(item.updatedAt).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-              </span>
+            {orderBook ? (
+              <>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span className="live-dot" />
+                  <span className="price-label">{t("livePrice")}</span>
+                </div>
+                <span className="price-value gold">
+                  {formatPrice(orderBook.lowestSellPrice)}
+                </span>
+                <span style={{ fontSize: "9px", color: "var(--text-dark)", marginTop: "2px" }}>
+                  {t("updated")}: {orderBookUpdatedAt ? new Date(orderBookUpdatedAt).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : ""}
+                </span>
+                {item.price !== null && (
+                  <span style={{ fontSize: "9px", color: "var(--text-muted)", marginTop: "1px" }}>
+                    {t("lastKnownPrice")}: {formatPrice(item.price)}
+                  </span>
+                )}
+              </>
+            ) : (
+              <>
+                <span className="price-label">{t("lastKnownPrice")}</span>
+                <span className="price-value gold">
+                  {item.price !== null ? formatPrice(item.price) : t("priceNotFound")}
+                </span>
+                {item.updatedAt && (
+                  <span style={{ fontSize: "10px", color: "var(--text-dark)", marginTop: "2px" }}>
+                    {t("updated")}: {new Date(item.updatedAt).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                  </span>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -582,6 +674,17 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
                     {/* Line stroke path */}
                     <path d={svgPaths.linePath} fill="none" stroke="var(--accent-gold)" strokeWidth="2" />
 
+                    {/* Live data pulsing dot at latest point */}
+                    {livePricePoints.length > 0 && points.length > 0 && (
+                      <circle 
+                        cx={points[points.length - 1].x} 
+                        cy={points[points.length - 1].y} 
+                        r="4" 
+                        fill="#34d399" 
+                        className="live-chart-dot"
+                      />
+                    )}
+
 
 
                     {/* Hover vertical line and tooltip marker dot */}
@@ -610,7 +713,7 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
                   {/* Floating Tooltip inside container */}
                   {hoveredPoint && (
                     <div 
-                      className="chart-hover-tooltip"
+                      className={`chart-hover-tooltip${isHoveredLive ? " live" : ""}`}
                       style={{ 
                         left: `${(hoverPos.x / chartWidth) * 100}%`,
                         top: `${(hoverPos.y / chartHeight) * 100}%`,
@@ -802,35 +905,67 @@ export const ItemDetailModal: React.FC<ItemDetailModalProps> = ({
             </div>
 
             <div>
-              <h3 className="section-title">{t("cheapestActiveListings")}</h3>
-            {loading ? (
-              <div className="modal-inner-loader">
-                <div className="loading-spinner" />
+              <div className="orderbook-summary">
+                {orderBook ? (
+                  <>
+                    <span className="orderbook-summary-item">
+                      <span className="orderbook-summary-label">{t("highestBuy")}</span>
+                      <span className="orderbook-summary-value buy">{formatPrice(orderBook.highestBuyPrice)}</span>
+                    </span>
+                    <span className="orderbook-summary-item">
+                      <span className="orderbook-summary-label">{t("lowestSell")}</span>
+                      <span className="orderbook-summary-value sell">{formatPrice(orderBook.lowestSellPrice)}</span>
+                    </span>
+                    <span className="orderbook-summary-item">
+                      <span className="orderbook-summary-label">{t("spread")}</span>
+                      <span className="orderbook-summary-value spread">{formatPrice(orderBook.lowestSellPrice - orderBook.highestBuyPrice)}</span>
+                    </span>
+                    <span className="orderbook-live-badge" title={orderBookUpdatedAt ? new Date(orderBookUpdatedAt).toLocaleTimeString() : ""}>
+                      <span className="live-dot" /> LIVE
+                    </span>
+                  </>
+                ) : orderBookError ? (
+                  <span className="orderbook-error-state">{t("orderbookUnavailable")}</span>
+                ) : (
+                  <span className="orderbook-loading-state">{t("loadingOrderbook")}</span>
+                )}
               </div>
-            ) : listings.length === 0 ? (
-              <div className="empty-listings-state">
-                <p>{t("noListingsFound")}</p>
+              <div className="orderbook-grid">
+                <div className="orderbook-column">
+                  <h4 className="orderbook-column-title buy">{t("buyOrders")}</h4>
+                  {orderBook ? (
+                    <div className="orderbook-entries">
+                      {orderBook.buyOrders.slice(0, 8).map((ord, idx) => (
+                        <div key={idx} className="orderbook-row">
+                          <span className="orderbook-price buy">{formatPrice(ord.price)}</span>
+                          <span className="orderbook-count">{ord.count}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : orderBookError ? (
+                    <div className="orderbook-empty">—</div>
+                  ) : (
+                    <div className="orderbook-empty">...</div>
+                  )}
+                </div>
+                <div className="orderbook-column">
+                  <h4 className="orderbook-column-title sell">{t("sellOrders")}</h4>
+                  {orderBook ? (
+                    <div className="orderbook-entries">
+                      {orderBook.sellOrders.slice(0, 8).map((ord, idx) => (
+                        <div key={idx} className="orderbook-row">
+                          <span className="orderbook-price sell">{formatPrice(ord.price)}</span>
+                          <span className="orderbook-count">{ord.count}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : orderBookError ? (
+                    <div className="orderbook-empty">—</div>
+                  ) : (
+                    <div className="orderbook-empty">...</div>
+                  )}
+                </div>
               </div>
-            ) : (
-              <div className="listings-table-wrapper">
-                <table className="listings-table">
-                  <thead>
-                    <tr>
-                      <th>{t("price")}</th>
-                      <th style={{ textAlign: "right" }}>{t("quantity")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listings.slice(0, 8).map((lst, idx) => (
-                      <tr key={idx} className="listing-row">
-                        <td className="listing-price gold">{formatPrice(lst.price)}</td>
-                        <td className="listing-qty" style={{ textAlign: "right" }}>{lst.count}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
           </div>
         </div>
 
